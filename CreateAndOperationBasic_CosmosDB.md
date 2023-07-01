@@ -1,6 +1,6 @@
-## Cosmos DB NoSQLの操作
+# Cosmos DB NoSQLの操作
 
-1. CosmosDBアカウントの作成
+## CosmosDBアカウントの作成
    
    - Azure PortalよりCosmosDBを検索
    
@@ -20,10 +20,9 @@
    ![image](https://github.com/tahayaka-microsoft/CosmosDB-ChangeFeed-Functions/assets/94338329/92cbcf73-af76-4be5-a2fe-64597be82e60)
 
 
-3. データベース・コンテナーの作成
-4. アイテムの作成・更新・削除
-5. クエリの発行
-6. 管理操作
-   1. スループットの変更
-   2. インデックスポリシーの変更
-   3.  
+## データベース・コンテナーの作成
+## アイテムの作成・更新・削除
+## クエリの発行
+## 管理操作
+   - スループットの変更
+   - インデックスポリシーの変更
