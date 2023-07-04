@@ -1,5 +1,13 @@
 # Cosmos DB NoSQLの操作
 
+## 必要な環境
+
+### Cosmos DB アカウント
+Cosmos DB for NoSQLのアカウントが作成済みであること
+
+### Azure Portalへのアクセス
+Azure PortalでCosmos DB for NoSQLのアカウントを開き、データエクスプローラーへのアクセスがができること
+
 ## CosmosDBアカウントの作成
    
 - Azure PortalよりCosmosDBを検索
@@ -39,7 +47,57 @@
 |Database Throughput (autoscale)|標準スループットかオートスケールか| Autoscale |
 |Database MaxRU/s|最大RU/s|1,000|
 
+### コンテナーの作成
+
+- データエクスプローラーより"New Container"をクリック
+![image](https://github.com/tahayaka-microsoft/CosmosDB-ChangeFeed-Functions/assets/94338329/e9777c21-661a-43c5-8017-77f2c0f0deb2)
+
+- 右側に現れた入力欄に以下の情報を入力
+![image](https://github.com/tahayaka-microsoft/CosmosDB-ChangeFeed-Functions/assets/94338329/93b0d3d6-53c2-49ab-8ee0-ee21bd486b99)
+
+|項目名|意味|サンプル入力|
+|---|---|---|
+|Database Id|データベース名(必須)| Existingを選択し、db1 |
+|Container Id|コンテナー名(必須)|container1|
+|Partition Key|パーティションキー| /id |
+
+その他はデフォルトでOK
+
+
 ## アイテムの作成・更新・削除
+
+-データエクスプローラーでコンテナーを選んで、"New Item"を押下
+
+![image](https://github.com/tahayaka-microsoft/CosmosDB-ChangeFeed-Functions/assets/94338329/90b0339d-b82d-411e-a34c-c6484272adfc)
+
+-出てきたウインドウにJSONフォーマットでデータを入力し、SAVE。(以下をコピー&ペーストし、任意に改変)
+```JSON
+{
+   "id"     : "000001",
+   "name"   : "John Smith",
+   "sku"    : "20223",
+   "price"  : 23.95,
+   "shipTo" : {
+      "name" : "Jane Smith",
+      "address" : "123 Maple Street",
+      "city" : "Pretendville",
+      "state" : "NY",
+      "zip"   : "12345"
+   },
+   "billTo" : {
+      "name" : "John Smith",
+      "address" : "123 Maple Street",
+      "city" : "Pretendville",
+      "state" : "NY",
+      "zip"   : "12345"
+   }
+}
+```
+
+Save後、システムプロパティが付きリストに登録されることを確認する。
+![image](https://github.com/tahayaka-microsoft/CosmosDB-ChangeFeed-Functions/assets/94338329/12fea94b-dce0-422b-89e1-d898a3a05aee)
+
+
 ## クエリの発行
 ## 管理操作
    - スループットの変更
