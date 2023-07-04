@@ -303,7 +303,7 @@ CosmosDBのコンテナーに登録・変更された情報を記録する**キ�
 
 ChangeFeedでは削除の情報を取ることができない。また、変更に関しても途中の経過を取ることができない。(Latest Version Mode) [^3]  
 
-[^3] 現在、削除の情報を取ることができる、"All versions and Deletes Mode"がプレビュー中である。
+[^3]: 現在、削除の情報を取ることができる、"All versions and Deletes Mode"がプレビュー中である。
 
 ## Synapse Link
 ```mermaid
