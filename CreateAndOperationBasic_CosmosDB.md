@@ -95,6 +95,7 @@ Azure PortalでCosmos DB for NoSQLのアカウントを開き、データエク�
 ```
 
 Save後、システムプロパティが付きリストに登録されることを確認する。
+
 <img src="https://github.com/tahayaka-microsoft/CosmosDB-ChangeFeed-Functions/assets/94338329/12fea94b-dce0-422b-89e1-d898a3a05aee" width="400">
 
 **"id"の値と他の項目の値を変更しつつ**同様の操作を何回か繰り返し、5~10程度のドキュメントを保存する。
