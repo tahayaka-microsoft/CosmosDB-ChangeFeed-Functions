@@ -94,6 +94,57 @@ Save後、システムプロパティが付きリストに登録されること�
 
 ## クエリの発行
 
+### サンプルデータの作成
+
+下記2つのJSONアイテムを、前項の操作に従って作成する。
+
+- サンプルデータその1
+
+``` JSON 
+{
+  "id": "863e778d-21c9-4e2a-a984-d31f947c665c",
+  "categoryName": "Surfboards",
+  "name": "Teapo Surfboard (6'10\") Grape",
+  "sku": "teapo-surfboard-72109",
+  "price": 690.00,
+  "manufacturer": {
+    "name": "Taepo",
+    "location": {
+      "type": "Point",
+      "coordinates": [ 
+        34.15562788533047, -118.4633004882891
+      ]
+    }
+  },
+  "tags": [
+    { "name": "Tail Shape: Swallow" },
+    { "name": "Color Group: Purple" }
+  ]
+}
+```
+
+- サンプルデータその2
+
+``` JSON 
+{
+  "id": "6e9f51c1-6b45-440f-af5a-2abc96cd083d",
+  "categoryName": "Sleeping Bags",
+  "name": "Vareno Sleeping Bag (6') Turmeric",
+  "price": 120.00,
+  "closeout": true,
+  "manufacturer": {
+    "name": "Vareno"
+  },
+  "tags": [
+    { "name": "Color Group: Yellow" },
+    { "name": "Bag Shape: Mummy" }
+  ]
+}
+```
+
+
+### クエリ操作
+
 データエクスプローラー上のツールバーにある、"New SQL Query"を押下。
 
 <img src="https://github.com/tahayaka-microsoft/CosmosDB-ChangeFeed-Functions/assets/94338329/ee82db52-9e27-4f9a-90b0-4a01a1831bab" width="400">
@@ -106,6 +157,10 @@ select count(1) AS CNT from c
 
 <img src="https://github.com/tahayaka-microsoft/CosmosDB-ChangeFeed-Functions/assets/94338329/7b71b6f8-d3ba-48b2-b84a-3b53bc43e223" width="400">
 
+### クエリパターン
+
+- 全件取得
+- 
 
 
 ## 管理操作
