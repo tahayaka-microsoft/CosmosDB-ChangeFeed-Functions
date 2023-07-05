@@ -32,7 +32,7 @@ Azure PortalでCosmos DB for NoSQLのアカウントを開き、データエク�
 ### データベースの作成
 
 - ポータルからCosmosDBアカウントを選択し、「データエクスプローラー」を開く  
-<img src="https://github.com/tahayaka-microsoft/CosmosDB-ChangeFeed-Functions/assets/94338329/bf09c3bc-bbf9-41fa-9ae9-7d21923b2d21" width="400">
+<img src="https://github.com/tahayaka-microsoft/CosmosDB-ChangeFeed-Functions/assets/94338329/bf09c3bc-bbf9-41fa-9ae9-7d21923b2d21" width="200">
 
 - データエクスプローラーより"New Container"の横の"v"をクリックし、"New Database"を押下  
 <img src="https://github.com/tahayaka-microsoft/CosmosDB-ChangeFeed-Functions/assets/94338329/d01595f8-8123-4418-8d2f-21cb882584b6" width="400">
