@@ -200,7 +200,17 @@ Cosmos DBのスケールアウトを活用するためには以下の条件を�
    - タイムスタンプなど、いずれアクセス頻度が下がる項目ではないこと
 
 パーティションキーの項目は、階層(Hieralchy)を持つことができる。
-階層は3つまで指定可能。上位の階層の検索についても効率化が測られる。
+階層は3つまで指定可能。上位の階層のみの検索についても効率化される。  
+
+例) [Tenant Id] - [User Id] - [Session ID]の3階層で階層型パーティションキーを取る場合:
+
+|Where句に含まれる項目|動作|
+|-----|-----|
+|[Tenant Id][User Id][Session Id]|完全なインデックスサーチ|
+|[Tenant Id][User Id]|部分的なインデックスサーチ|
+|[Tenant Id]|部分的なインデックスサーチ|
+|[User Id][Session Id]|インデックス無効|
+|[Session Id]|インデックス無効|
 
 
 ### コンテナー
@@ -223,6 +233,9 @@ Cosmos DBのスケールアウトを活用するためには以下の条件を�
 
 ## 論理・物理パーティション
 
+<img src="https://github.com/tahayaka-microsoft/CosmosDB-ChangeFeed-Functions/assets/94338329/6eee534b-5ae3-462e-adee-2583e235e285" width=600>
+
+<!---
 ```mermaid
 graph LR
   subgraph "物理パーティション2: MAX10,000RU/秒, 50GB"
@@ -246,6 +259,7 @@ graph LR
     end
   end
 ```
+-->
 
 コンテナーごとにアイテムを格納する単位。
 **分散アクセスの方法を決定する**キーとなる概念のため、設計上注意が必要。
