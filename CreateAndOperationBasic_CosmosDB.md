@@ -1,13 +1,5 @@
 # Cosmos DB NoSQLの操作
 
-## 必要な環境
-
-### Cosmos DB アカウント
-Cosmos DB for NoSQLのアカウントが作成済みであること
-
-### Azure Portalへのアクセス
-Azure PortalでCosmos DB for NoSQLのアカウントを開き、データエクスプローラーへのアクセスがができること
-
 ## CosmosDBアカウントの作成
    
 - Azure PortalよりCosmosDBを検索
