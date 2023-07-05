@@ -94,6 +94,20 @@ Save後、システムプロパティが付きリストに登録されること�
 
 ## クエリの発行
 
+データエクスプローラー上のツールバーにある、"New SQL Query"を押下。
+
+<img src="https://github.com/tahayaka-microsoft/CosmosDB-ChangeFeed-Functions/assets/94338329/ee82db52-9e27-4f9a-90b0-4a01a1831bab" width="400">
+
+右側ペインに以下のコードを張り付けて"Execute Query"を押下
+
+```SQL
+select count(1) AS CNT from c
+```
+
+<img src="https://github.com/tahayaka-microsoft/CosmosDB-ChangeFeed-Functions/assets/94338329/7b71b6f8-d3ba-48b2-b84a-3b53bc43e223" width="400">
+
+
+
 ## 管理操作
    - スループットの変更
    - インデックスポリシーの変更
