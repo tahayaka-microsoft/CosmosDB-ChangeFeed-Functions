@@ -151,15 +151,27 @@ Save後、システムプロパティが付きリストに登録されること�
 
 右側ペインに以下のコードを張り付けて"Execute Query"を押下
 
+クエリ
 ```SQL
 select count(1) AS CNT from c
+```
+
+結果
+```JSON
+[
+    {
+        "$1": 2
+    }
+]
 ```
 
 <img src="https://github.com/tahayaka-microsoft/CosmosDB-ChangeFeed-Functions/assets/94338329/7b71b6f8-d3ba-48b2-b84a-3b53bc43e223" width="400">
 
 ### クエリパターン
 
-- 全件取得
+#### 全件取得
+
+クエリ
 ```SQL
 SELECT * FROM c
 ```
@@ -222,7 +234,9 @@ SELECT * FROM c
 ]
 ```
 
-- WHERE句で条件を設定
+#### WHERE句で条件を設定
+
+クエリ
 ```SQL
 SELECT * FROM c
 WHERE c.categoryName = "Sleeping Bags"
@@ -257,7 +271,9 @@ WHERE c.categoryName = "Sleeping Bags"
 ```
 
 
-- JSONを他の形式に変換(プロジェクション) : productというオブジェクトを新しく生成
+#### JSONを他の形式に変換(プロジェクション) : productというオブジェクトを新しく生成
+
+クエリ
 ```SQL
 SELECT {
   "name": c.name,
@@ -280,9 +296,9 @@ WHERE c.sku = "teapo-surfboard-72109"
 ]
 ```
 
+#### SELECT VALUEを使ったフラット化
 
-
-- SELECT VALUEを使ったフラット化
+クエリ
 ```SQL
 SELECT VALUE {
   "name": p.name,
@@ -291,6 +307,16 @@ SELECT VALUE {
 }
 FROM c
 WHERE c.sku = "teapo-surfboard-72109"
+```  
+結果
+```JSON
+[
+    {
+        "name": "Teapo Surfboard (6'10\") Grape",
+        "sku": "teapo-surfboard-72109",
+        "vendor": "Taepo"
+    }
+]
 ```
 
 ## 管理操作
