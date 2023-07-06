@@ -160,9 +160,142 @@ select count(1) AS CNT from c
 ### クエリパターン
 
 - 全件取得
-- 
+```SQL
+SELECT * FROM c
+```
+結果
+```JSON
+[
+    {
+        "id": "863e778d-21c9-4e2a-a984-d31f947c665c",
+        "categoryName": "Surfboards",
+        "name": "Teapo Surfboard (6'10\") Grape",
+        "sku": "teapo-surfboard-72109",
+        "price": 690,
+        "manufacturer": {
+            "name": "Taepo",
+            "location": {
+                "type": "Point",
+                "coordinates": [
+                    34.15562788533047,
+                    -118.4633004882891
+                ]
+            }
+        },
+        "tags": [
+            {
+                "name": "Tail Shape: Swallow"
+            },
+            {
+                "name": "Color Group: Purple"
+            }
+        ],
+        "_rid": "OsMpAKRdg3MBAAAAAAAAAA==",
+        "_self": "dbs/OsMpAA==/colls/OsMpAKRdg3M=/docs/OsMpAKRdg3MBAAAAAAAAAA==/",
+        "_etag": "\"c600c175-0000-0700-0000-64a4f7960000\"",
+        "_attachments": "attachments/",
+        "_ts": 1688532886
+    },
+    {
+        "id": "6e9f51c1-6b45-440f-af5a-2abc96cd083d",
+        "categoryName": "Sleeping Bags",
+        "name": "Vareno Sleeping Bag (6') Turmeric",
+        "price": 120,
+        "closeout": true,
+        "manufacturer": {
+            "name": "Vareno"
+        },
+        "tags": [
+            {
+                "name": "Color Group: Yellow"
+            },
+            {
+                "name": "Bag Shape: Mummy"
+            }
+        ],
+        "_rid": "OsMpAKRdg3MCAAAAAAAAAA==",
+        "_self": "dbs/OsMpAA==/colls/OsMpAKRdg3M=/docs/OsMpAKRdg3MCAAAAAAAAAA==/",
+        "_etag": "\"c600c275-0000-0700-0000-64a4f7a50000\"",
+        "_attachments": "attachments/",
+        "_ts": 1688532901
+    }
+]
+```
 
+- WHERE句で条件を設定
+```SQL
+SELECT * FROM c
+WHERE c.categoryName = "Sleeping Bags"
+```
+結果
+```JSON
+[
+    {
+        "id": "6e9f51c1-6b45-440f-af5a-2abc96cd083d",
+        "categoryName": "Sleeping Bags",
+        "name": "Vareno Sleeping Bag (6') Turmeric",
+        "price": 120,
+        "closeout": true,
+        "manufacturer": {
+            "name": "Vareno"
+        },
+        "tags": [
+            {
+                "name": "Color Group: Yellow"
+            },
+            {
+                "name": "Bag Shape: Mummy"
+            }
+        ],
+        "_rid": "OsMpAKRdg3MCAAAAAAAAAA==",
+        "_self": "dbs/OsMpAA==/colls/OsMpAKRdg3M=/docs/OsMpAKRdg3MCAAAAAAAAAA==/",
+        "_etag": "\"c600c275-0000-0700-0000-64a4f7a50000\"",
+        "_attachments": "attachments/",
+        "_ts": 1688532901
+    }
+]
+```
+
+
+- JSONを他の形式に変換(プロジェクション) : productというオブジェクトを新しく生成
+```SQL
+SELECT {
+  "name": c.name,
+  "sku": c.sku,
+  "vendor": c.manufacturer.name
+} AS product
+FROM c 
+WHERE c.sku = "teapo-surfboard-72109"
+```
+結果
+```JSON
+[
+    {
+        "product": {
+            "name": "Teapo Surfboard (6'10\") Grape",
+            "sku": "teapo-surfboard-72109",
+            "vendor": "Taepo"
+        }
+    }
+]
+```
+
+
+
+- SELECT VALUEを使ったフラット化
+```SQL
+SELECT VALUE {
+  "name": p.name,
+  "sku": p.sku,
+  "vendor": p.manufacturer.name
+}
+FROM c
+WHERE c.sku = "teapo-surfboard-72109"
+```
 
 ## 管理操作
    - スループットの変更
+
+
+
    - インデックスポリシーの変更
