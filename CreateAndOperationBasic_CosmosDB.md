@@ -340,14 +340,14 @@ WHERE c.sku = "teapo-surfboard-72109"
    {
        "indexingMode": "consistent",
        "automatic": true,  ←自動で作成するか
-       "includedPaths": [  ← インデックスを生成する項目・パス
+       "includedPaths": [  # ← インデックスを生成する項目・パス
            {
-               "path": "/*"  ←「ルートからすべての項目」の意味
+               "path": "/*"  # ←「ルートからすべての項目」の意味
            }
        ],
-       "excludedPaths": [ ← インデックスを生成しない項目・パス
+       "excludedPaths": [  # ← インデックスを生成しない項目・パス
            {
-               "path": "/\"_etag\"/?" ←"etag"には作らない。\はエスケープ
+               "path": "/\"_etag\"/?" # ←"etag"には作らない。\はエスケープ
            }
        ]
    }
