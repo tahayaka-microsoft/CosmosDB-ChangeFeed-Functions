@@ -51,4 +51,25 @@ Change Feedはコンテナーのパーティションキー範囲(パーティ�
 
 <img src="https://learn.microsoft.com/ja-jp/azure/cosmos-db/media/change-feed/changefeedvisual.png" width="400">
 
-## 
+## Change Feedのモード
+
+### 最新バージョンモード
+
+- フィード内のすべての項目の挿入、または最新の変更が表示される。削除はキャプチャされず、挿入・変更の違いも示されない。  
+- 変更はコンテナーの始まりまでさかのぼって任意の時点から読み取ることができるが、項目が削除されるとChange Feedからも削除される。
+
+### すべてのバージョンと削除モード(プレビュー)
+
+- 作成・更新・削除による項目へのすべての変更が確認できる。
+- 変更途中のバージョンを得ることもできる。
+- 継続的バックアップが設定されていることが条件
+    - 継続的バックアップの期間内の変更がキャプチャされる
+- プレビュー参加には申請が必要となる
+
+## 仕組み
+
+<img src="https://github.com/tahayaka-microsoft/CosmosDB-ChangeFeed-Functions/assets/94338329/08a831ac-127b-4e7a-8f8e-31760d44a460">
+
+- 監視対象コンテナーに対する挿入と変更がChange Feedに記録される。  
+- Change Feedに対する複数のコンシューマーの処理をリースコンテナーに記録された情報で進行状況を管理する  
+- コンシューマーとしてAzure Functionsや独自のクライアントなどがChange Feedに対してアクセスにくる
