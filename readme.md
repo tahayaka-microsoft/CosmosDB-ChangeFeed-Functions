@@ -384,13 +384,16 @@ graph LR
     subgraph "CosmosClient"
         1[アクセスキー]
         2[URI]
+        1~~~2
         subgraph "Database"
             subgraph "Container"
                 3[RU/s設定]
                 4[インデックスポリシー]
                 B[[各種メソッド]]
+                3~~~4
             end
         end
+        style database fill:#888,stroke-dasharray: 5 5
     end
     A<--引数として-->B
     D["クエリ"]--引数として-->B
