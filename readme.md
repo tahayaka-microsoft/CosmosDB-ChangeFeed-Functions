@@ -345,14 +345,14 @@ ChangeFeedでは削除の情報を取ることができない。また、変更�
 graph LR
 subgraph "Cosmos DB(Analytical Store Enabled)"
   A[("コンテナー
-  (Analytical Store On)")] --"自動でコピー"--> B["Synapse Link
-  (parquet)"]
+  (Analytical Store On)")] --"自動でコピー"--> B[("Synapse Link
+  (parquet)")]
 end
 subgraph Synapse Analytics
-  C["Serverless SQL Pool
-  (or Spark Pool)"]
+  C[["Serverless SQL Pool
+  (or Spark Pool)"]]
 end
-B --"プログラムを
+B --"SQL or プログラムを
 実行して読み出し"--> C
 ```
 
@@ -381,24 +381,22 @@ Cosmos DBは以下の言語のSDKを提供している。
 ```mermaid
 graph LR
     A([アイテム受渡用クラス])
-    subgraph "CosmosClient"
-        1[アクセスキー]
-        2[URI]
-        1~~~2
-        subgraph "Database"
-            subgraph "Container"
-                3[RU/s設定]
-                4[インデックスポリシー]
+    subgraph s1["CosmosClient"]
+        1["設定(アクセスキー,URI)"]
+        subgraph s2["Database(なくても良い)"]
+            subgraph s3["Container"]
+                2["設定(RU/s,インデックスポリシー)"]
                 B[[各種メソッド]]
-                3~~~4
             end
         end
-        style database fill:#888,stroke-dasharray: 5 5
     end
     A<--引数として-->B
     D["クエリ"]--引数として-->B
     B--"戻り値(オブジェクト)として"-->C["結果オブジェクト
 (RU消費量などのメトリック)"]
+style s2 stroke-dasharray: 5 5
+style 1 fill:#CCC,stroke:#888
+style 2 fill:#CCC,stroke:#888
 ```
 
 1. Client(CosmosClient)の生成
