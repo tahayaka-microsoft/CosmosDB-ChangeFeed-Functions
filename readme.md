@@ -378,6 +378,26 @@ Cosmos DBは以下の言語のSDKを提供している。
 
 ### Cosmos DB SDKでの開発
 
+```mermaid
+graph LR
+    A([アイテム受渡用クラス])
+    subgraph "CosmosClient"
+        1[アクセスキー]
+        2[URI]
+        subgraph "Database"
+            subgraph "Container"
+                3[RU/s設定]
+                4[インデックスポリシー]
+                B[[各種メソッド]]
+            end
+        end
+    end
+    A<--引数として-->B
+    D["クエリ"]--引数として-->B
+    B--"戻り値(オブジェクト)として"-->C["結果オブジェクト
+(RU消費量などのメトリック)"]
+```
+
 1. Client(CosmosClient)の生成
 1. Databaseオブジェクトの生成
 1. Containerオブジェクトの生成
