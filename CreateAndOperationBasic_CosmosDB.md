@@ -322,9 +322,33 @@ WHERE c.sku = "teapo-surfboard-72109"
 
 ## 管理操作
    - スループットの変更
-      - データエクスプローラーから"Scale"を選択
-        <img src="https://github.com/tahayaka-microsoft/CosmosDB-ChangeFeed-Functions/assets/94338329/0eb4eadd-0cb0-49d9-b92f-a08919149f30" width="400">
-
-
-
+      - データエクスプローラーの**データベースの下**にある"Scale"を選択  
+        <img src="https://github.com/tahayaka-microsoft/CosmosDB-ChangeFeed-Functions/assets/94338329/0eb4eadd-0cb0-49d9-b92f-a08919149f30" width="400">  
+      - Manual or Automaticを選択し、スループット(RU/s)を入力し、"Save"  
+        <img src="https://github.com/tahayaka-microsoft/CosmosDB-ChangeFeed-Functions/assets/94338329/c8f7d8b7-5800-4e51-90ac-7e448b760e1e" width="400">
+ 
    - インデックスポリシーの変更
+      - データエクスプローラーの**コンテナーの下**にある"Settings"を選択  
+         <img src="https://github.com/tahayaka-microsoft/CosmosDB-ChangeFeed-Functions/assets/94338329/0c230f22-dd0d-4408-8bab-0df0fb1e5827" width="400">  
+      - 右ペインのタグ"Index Policy"を開く  
+        <img src="https://github.com/tahayaka-microsoft/CosmosDB-ChangeFeed-Functions/assets/94338329/b5e3c84e-6de6-4506-b0c7-8d98cebd94c4" width="400">
+
+   - インデックスポリシーの内容を追記・変更して"Save"することで反映される。  
+     インデックスの変更は使われていないRU/sを消費してバックグラウンドに実行される。
+
+   ```JSON
+   {
+       "indexingMode": "consistent",
+       "automatic": true,  ←自動で作成するか
+       "includedPaths": [  ← インデックスを生成する項目・パス
+           {
+               "path": "/*"  ←「ルートからすべての項目」の意味
+           }
+       ],
+       "excludedPaths": [ ← インデックスを生成しない項目・パス
+           {
+               "path": "/\"_etag\"/?" ←"etag"には作らない。\はエスケープ
+           }
+       ]
+   }
+   ```
