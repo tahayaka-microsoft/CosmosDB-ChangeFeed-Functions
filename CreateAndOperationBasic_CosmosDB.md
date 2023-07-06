@@ -322,6 +322,8 @@ WHERE c.sku = "teapo-surfboard-72109"
 
 ## 管理操作
    - スループットの変更
+      - データエクスプローラーから"Scale"を選択
+        <img src="https://github.com/tahayaka-microsoft/CosmosDB-ChangeFeed-Functions/assets/94338329/0eb4eadd-0cb0-49d9-b92f-a08919149f30" width="400">
 
 
 
