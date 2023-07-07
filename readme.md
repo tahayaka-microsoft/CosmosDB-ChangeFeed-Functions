@@ -6,8 +6,8 @@
 # 目次
 
 1. Cosmos DB NoSQL 概要 (1hour)
-1. [Cosmos DB NoSQLの操作](./CreateAndOperationBasic_CosmosDB.md) (30min)
-1. [Cosmos DB Change Feed 概要](./ChangeFeed_Essential.md) (30min)
+1. [Cosmos DB NoSQLの操作](./01_CreateAndOperationBasic_CosmosDB.md) (30min)
+1. [Cosmos DB Change Feed 概要](./02_ChangeFeed_Essential.md) (30min)
 1. Cosmos DB Change Feedの操作 (1hour)
     1. Azure Functionsの作成
     1. Azure Functionsのコーディング
