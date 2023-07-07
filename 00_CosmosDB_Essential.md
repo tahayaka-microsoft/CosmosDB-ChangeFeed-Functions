@@ -1,5 +1,7 @@
 # Cosmos DB for NoSQL 概要
 
+[目次へもどる](./readme.md)
+
 ## Cosmos DB for NoSQLとは？
 
 <img src="https://github.com/tahayaka-microsoft/CosmosDB-ChangeFeed-Functions/assets/94338329/bc0ec96e-40c5-41fc-960d-bfbe89b46c20" width=600>
