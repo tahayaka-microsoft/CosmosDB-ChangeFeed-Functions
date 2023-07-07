@@ -1,5 +1,7 @@
 # Cosmos DB NoSQLの操作
 
+[目次へ戻る](./readme.md)
+
 ## CosmosDBアカウントの作成
    
 - Azure PortalよりCosmosDBを検索
