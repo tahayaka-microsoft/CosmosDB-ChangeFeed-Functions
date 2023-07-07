@@ -94,3 +94,13 @@ Azure FunctionsはAzureにおける**サーバーレス型アプリケーショ�
 |入出力バインド|データベースやファイルストレージなどを簡単にアプリケーションに紐づけし、アプリケーションに対する入出力を定義・利用することができる|
 |多くの開発言語に対応|C#(.NET),Python,PowerShell,Java,JavaScriptなど多くの言語に対応|
 |バリエーションのある動作・課金モデル|従量課金と常時起動型を選択できる。|
+
+### Azure Functionsを用いたサーバーレス開発
+
+Azure Functionsを用いたアプリケーション開発は以下の3つの方式で行うことができる。
+
+|方式|概要|備考|
+|---|---|---|
+|Visual Studio|Visual StudioにAzure開発ワークロードを含めて開発プロジェクトを作成する||
+|Visual Studio Code|VS Code+AzureFunctions拡張機能を用いて開発する|JavaScriptとC#が対応|
+|Azure Portal|Azure Portal上のツールを使って開発する|開発できる言語・環境が限定される(C#スクリプトベースの場合はWindowsプラットフォームが必須)
