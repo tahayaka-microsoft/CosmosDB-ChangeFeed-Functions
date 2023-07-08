@@ -56,12 +56,23 @@ graph LR
   C-->D
 ```
 
-
 #### 事前準備 : Cosmos DB for PostgreSQL上にテーブルを作成
 
-Cosmos DB for PostgreSQLのpSQLインターフェースで下記のテーブルを作成する。
+- ‼️ CosmosDB for PostgreSQLのネットワーク設定で、"Allow public access from Azure services and resources within Azure to this cluster"にチェックが入っていることを確認する
+
+<img src="https://github.com/tahayaka-microsoft/CosmosDB-ChangeFeed-Functions/assets/94338329/fced7899-8cd2-4c01-b303-4c92c7b7737f" width="400">
+
+- Cosmos DB for PostgreSQLのpSQLインターフェースで下記のテーブルを作成する。
+
+> psqlはAzurePortal上でCloud Shellを起動して実行する
 
 ```SQL
+create table holfnctest (
+  id varchar(16),
+  name varchar(64),
+  age bigint,
+  other jsonb
+);
 ```
 
 #### 関数の作成
