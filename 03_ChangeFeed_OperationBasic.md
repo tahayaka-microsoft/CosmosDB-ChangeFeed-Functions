@@ -13,7 +13,25 @@
 ※WindowsプラットフォームのAzure FunctionsはAzure Portal上でコードを作成・変更できる。
 
 - Azure Portalを開く
-- Azure Functionsを検索し、作成
+- Azure Functions "関数アプリ" を検索し、作成 <img src="https://github.com/tahayaka-microsoft/CosmosDB-ChangeFeed-Functions/assets/94338329/572e8b8e-8e6b-4c73-9485-86206f742c59" width="200" align="center">
+
+以下のように設定する。
+
+|項目|値|
+|---|---|
+|サブスクリプション|任意|
+|リソースグループ|任意|
+|関数アプリ名|任意(全世界で一意)|
+|ランタイムスタック|.NET|
+|バージョン|6(LTS)|
+|地域|任意(JapanEast推奨)|
+|オペレーティングシステム|Windows|
+|ホスティングオプションとプラン|消費量(サーバーレス)|
+
+<img src="https://github.com/tahayaka-microsoft/CosmosDB-ChangeFeed-Functions/assets/94338329/cdeebf78-224e-4199-a564-cd444f8f6c8b" width="400">
+<br>
+<img src="https://github.com/tahayaka-microsoft/CosmosDB-ChangeFeed-Functions/assets/94338329/124017a8-0a45-4cc6-83cc-74f543d014af" width="400">
+
 
 ## 関数の作成
 
