@@ -41,12 +41,31 @@
 
 <img src="https://github.com/tahayaka-microsoft/CosmosDB-ChangeFeed-Functions/assets/94338329/b6300ab4-8de4-43f2-bf25-db8858d9bbec" width="400">
 
-- "ポータルでの開発" , "Azure Cosmos DB Trigger"を選択し、作成
+- "ポータルでの開発" , "Azure Cosmos DB Trigger"を選択
 
 <img src="https://github.com/tahayaka-microsoft/CosmosDB-ChangeFeed-Functions/assets/94338329/39847365-cae9-461a-8666-506862a169a6" width="400">
 
-- 関数エディターを表示する
+- Cosmos DB Account Connectionは"New"をクリックし、Azure Cosmos DBアカウントを選択し、対象のCosmos DBアカウントを選択して"OK"
+
+<img src="https://github.com/tahayaka-microsoft/CosmosDB-ChangeFeed-Functions/assets/94338329/adca3462-e678-4107-8d2d-dbbc539cdb15" width="400">
+
+- その他は下記のように入力・選択する
+
+|項目|値|
+|---|---|
+|Database Name|(利用するデータベース名)|
+|Container Name|(コンテナー名)|
+|Collection for lease|lease(デフォルト)|
+|Create lease collection if it does not exist|**はい**|
+
+- 作成を押下して関数アプリを作成する
+
+- "コードとテスト"から関数エディターを表示する
+
+<img src="https://github.com/tahayaka-microsoft/CosmosDB-ChangeFeed-Functions/assets/94338329/88340383-92c6-4273-860e-7afb785fc4e2" width="400">
+
 - 以下のコードをコピーし、貼り付ける
+
 - Cosmos DBのデータエクスプローラーから
 
 ### 2. CosmosDBから受信したレコードをCosmos DB for PostgreSQLのテーブルに書き込む
