@@ -37,7 +37,14 @@
 
 ### 1. CosmosDBから受信したレコードの情報をログに表示
 
-- Azure Portalから関数アプリを開く
+- Azure Portalから関数アプリを開き、新規作成
+
+<img src="https://github.com/tahayaka-microsoft/CosmosDB-ChangeFeed-Functions/assets/94338329/b6300ab4-8de4-43f2-bf25-db8858d9bbec" width="400">
+
+- "ポータルでの開発" , "Azure Cosmos DB Trigger"を選択し、作成
+
+<img src="https://github.com/tahayaka-microsoft/CosmosDB-ChangeFeed-Functions/assets/94338329/39847365-cae9-461a-8666-506862a169a6" width="400">
+
 - 関数エディターを表示する
 - 以下のコードをコピーし、貼り付ける
 - Cosmos DBのデータエクスプローラーから
