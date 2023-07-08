@@ -41,6 +41,14 @@ graph LR
 
 #### 事前準備 : Cosmos DB for PostgreSQL上にテーブルを作成
 
+Cosmos DB for PostgreSQLのpSQLインターフェースで下記のテーブルを作成する。
+
+```SQL
+```
+
 #### 関数の作成
 
 #### テスト
+
+- Cosmos DB for NoSQLアカウント側で下記のアイテムを作成する
+- 
