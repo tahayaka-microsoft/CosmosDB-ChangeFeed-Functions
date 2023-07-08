@@ -1,7 +1,7 @@
 # Cosmos DB (NoSQL) 概要 + Change Feedに関するHands On
 
 > 本リポジトリではCosmos DB for **NoSQL**を中心に取り扱う。<br>
-> その他のCosmos DB APIについての説明は[公式ドキュメント](https://learn.microsoft.com/ja-jp/azure/cosmos-db/https://)を参照のこと
+> その他のCosmos DB APIについての説明は[公式ドキュメント](https://learn.microsoft.com/ja-jp/azure/cosmos-db/)を参照のこと
 
 # 目次
 
