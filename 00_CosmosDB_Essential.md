@@ -14,23 +14,23 @@
 ### 優位性
   - **ドキュメント(JSON)** を基準とする柔軟なデータ構造
     - JSONは以下のような形で**事前の項目定義が必要ない(スキーマレス)柔軟なデータ構造**を扱える。
-    ```JSON
-    {
-      "name"   : "John Smith",
-      "sku"    : "20223",
-      "price"  : 23.95,
-      "shipTo" : { "name" : "Jane Smith",
-                   "address" : "123 Maple Street",
-                   "city" : "Pretendville",
-                   "state" : "NY",
-                   "zip"   : "12345" },
-      "billTo" : { "name" : "John Smith",
-                   "address" : "123 Maple Street",
-                   "city" : "Pretendville",
-                   "state" : "NY",
-                   "zip"   : "12345" }
-    }
-    ```
+```JSON
+{
+  "name"   : "John Smith",
+  "sku"    : "20223",
+  "price"  : 23.95,
+  "shipTo" : { "name" : "Jane Smith",
+               "address" : "123 Maple Street",
+               "city" : "Pretendville",
+               "state" : "NY",
+               "zip"   : "12345" },
+  "billTo" : { "name" : "John Smith",
+               "address" : "123 Maple Street",
+               "city" : "Pretendville",
+               "state" : "NY",
+               "zip"   : "12345" }
+}
+```
 
   - データのクエリにSQL**ライク**なクエリ言語を利用できる。
     - SQL**ライク**な表現を利用できるのは**検索時(SELECT)のみ**。
