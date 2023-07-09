@@ -13,7 +13,7 @@
 ※WindowsプラットフォームのAzure FunctionsはAzure Portal上でコードを作成・変更できる。
 
 - Azure Portalを開く
-- Azure Functions "関数アプリ" を検索し、作成 <img src="https://github.com/tahayaka-microsoft/CosmosDB-ChangeFeed-Functions/assets/94338329/572e8b8e-8e6b-4c73-9485-86206f742c59" width="200" align="center">
+- Azure Functions "関数アプリ" を検索し、作成 <img src="./assets/03_01.png" width="200" align="center">
 
 以下のように設定する。
 
@@ -28,9 +28,9 @@
 |オペレーティングシステム|Windows|
 |ホスティングオプションとプラン|消費量(サーバーレス)|
 
-<img src="./assets/03_01.png" width="400">
-<br>
 <img src="./assets/03_02.png" width="400">
+<br>
+<img src="./assets/03_03.png" width="400">
 
 
 ## 関数の作成
@@ -39,15 +39,15 @@
 
 - Azure Portalから関数アプリを開き、新規作成
 
-<img src="./assets/03_03.png" width="400">
+<img src="./assets/03_04.png" width="400">
 
 - "ポータルでの開発" , "Azure Cosmos DB Trigger"を選択
 
-<img src="./assets/03_04.png" width="400">
+<img src="./assets/03_05.png" width="400">
 
 - Cosmos DB Account Connectionは"New"をクリックし、Azure Cosmos DBアカウントを選択し、対象のCosmos DBアカウントを選択して"OK"
 
-<img src="./assets/03_05.png" width="400">
+<img src="./assets/03_06.png" width="400">
 
 - その他は下記のように入力・選択する
 
@@ -62,7 +62,7 @@
 
 - "コードとテスト"から関数エディターを表示する
 
-<img src="./assets/03_06.png" width="400">
+<img src="./assets/03_07.png" width="400">
 
 - 以下のコードをコピーし、貼り付ける
 
@@ -86,7 +86,7 @@ graph LR
 
 - ‼️ CosmosDB for PostgreSQLのネットワーク設定で、"Allow public access from Azure services and resources within Azure to this cluster"にチェックが入っていることを確認する
 
-<img src="./assets/03_07.png" width="400">
+<img src="./assets/03_08.png" width="400">
 
 - Cosmos DB for PostgreSQLのpSQLインターフェースで下記のテーブルを作成する。
 
