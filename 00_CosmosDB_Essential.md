@@ -4,7 +4,7 @@
 
 ## Cosmos DB for NoSQLとは？
 
-<img src="https://github.com/tahayaka-microsoft/CosmosDB-ChangeFeed-Functions/assets/94338329/bc0ec96e-40c5-41fc-960d-bfbe89b46c20" width=600>
+<img src="./assets/00_01.png" width=600>
 
 - Microsoft Azureで利用できる**NoSQLデータストア**
     - いわゆる **データベース(RDBMS)** とは異なる概念と理解するのが良い
@@ -236,7 +236,7 @@ Cosmos DBのスケールアウトを活用するためには以下の条件を�
 
 ## パーティション
 
-<img src="https://github.com/tahayaka-microsoft/CosmosDB-ChangeFeed-Functions/assets/94338329/6eee534b-5ae3-462e-adee-2583e235e285" width=600>
+<img src="./assets/00_02.png" width=600>
 
 <!---
 ```mermaid
