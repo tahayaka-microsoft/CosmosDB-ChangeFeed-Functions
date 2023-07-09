@@ -49,7 +49,7 @@ graph LR
 Change Feedはコンテナーのパーティションキー範囲(パーティションのグループ)で使用できる。  
 これにより次の図のように1つ、または複数のコンシューマーに分散して並列処理ができる。
 
-<img src="https://learn.microsoft.com/ja-jp/azure/cosmos-db/media/change-feed/changefeedvisual.png" width="400">
+<img src="./assets/02_01.png" width="400">
 
 ## Change Feedのモード
 
@@ -68,7 +68,7 @@ Change Feedはコンテナーのパーティションキー範囲(パーティ�
 
 ## 仕組み
 
-<img src="https://github.com/tahayaka-microsoft/CosmosDB-ChangeFeed-Functions/assets/94338329/08a831ac-127b-4e7a-8f8e-31760d44a460">
+<img src="./assets/02_02.png">
 
 - 監視対象コンテナーに対する挿入と変更がChange Feedに記録される。  
 - Change Feedに対する複数のコンシューマーの処理をリースコンテナーに記録された情報で進行状況を管理する  
