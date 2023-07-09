@@ -234,7 +234,7 @@ Cosmos DBのスケールアウトを活用するためには以下の条件を�
 コンテナーのグループ。  
 共有スループットの利用時にはデータベースごとに25コンテナーまでスループットの共有が可能。
 
-## 論理・物理パーティション
+## パーティション
 
 <img src="https://github.com/tahayaka-microsoft/CosmosDB-ChangeFeed-Functions/assets/94338329/6eee534b-5ae3-462e-adee-2583e235e285" width=600>
 
