@@ -28,9 +28,9 @@
 |オペレーティングシステム|Windows|
 |ホスティングオプションとプラン|消費量(サーバーレス)|
 
-<img src="https://github.com/tahayaka-microsoft/CosmosDB-ChangeFeed-Functions/assets/94338329/cdeebf78-224e-4199-a564-cd444f8f6c8b" width="400">
+<img src="./assets/03_01.png" width="400">
 <br>
-<img src="https://github.com/tahayaka-microsoft/CosmosDB-ChangeFeed-Functions/assets/94338329/124017a8-0a45-4cc6-83cc-74f543d014af" width="400">
+<img src="./assets/03_02.png" width="400">
 
 
 ## 関数の作成
@@ -39,15 +39,15 @@
 
 - Azure Portalから関数アプリを開き、新規作成
 
-<img src="https://github.com/tahayaka-microsoft/CosmosDB-ChangeFeed-Functions/assets/94338329/b6300ab4-8de4-43f2-bf25-db8858d9bbec" width="400">
+<img src="./assets/03_03.png" width="400">
 
 - "ポータルでの開発" , "Azure Cosmos DB Trigger"を選択
 
-<img src="https://github.com/tahayaka-microsoft/CosmosDB-ChangeFeed-Functions/assets/94338329/39847365-cae9-461a-8666-506862a169a6" width="400">
+<img src="./assets/03_04.png" width="400">
 
 - Cosmos DB Account Connectionは"New"をクリックし、Azure Cosmos DBアカウントを選択し、対象のCosmos DBアカウントを選択して"OK"
 
-<img src="https://github.com/tahayaka-microsoft/CosmosDB-ChangeFeed-Functions/assets/94338329/adca3462-e678-4107-8d2d-dbbc539cdb15" width="400">
+<img src="./assets/03_05.png" width="400">
 
 - その他は下記のように入力・選択する
 
@@ -62,7 +62,7 @@
 
 - "コードとテスト"から関数エディターを表示する
 
-<img src="https://github.com/tahayaka-microsoft/CosmosDB-ChangeFeed-Functions/assets/94338329/88340383-92c6-4273-860e-7afb785fc4e2" width="400">
+<img src="./assets/03_06.png" width="400">
 
 - 以下のコードをコピーし、貼り付ける
 
@@ -86,7 +86,7 @@ graph LR
 
 - ‼️ CosmosDB for PostgreSQLのネットワーク設定で、"Allow public access from Azure services and resources within Azure to this cluster"にチェックが入っていることを確認する
 
-<img src="https://github.com/tahayaka-microsoft/CosmosDB-ChangeFeed-Functions/assets/94338329/fced7899-8cd2-4c01-b303-4c92c7b7737f" width="400">
+<img src="./assets/03_07.png" width="400">
 
 - Cosmos DB for PostgreSQLのpSQLインターフェースで下記のテーブルを作成する。
 
