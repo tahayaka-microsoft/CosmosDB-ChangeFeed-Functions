@@ -268,13 +268,14 @@ public static void Run(IReadOnlyList<Document> input, ILogger log)
 ### アプリケーション
 - エラーハンドリング
   - 本ハンズオンではエラーハンドリングを組み込んでない
-      - スループット超過(HTTP429)によるリトライロジック
       - サービスへのアクセス不可が続いたときの例外
+      - (CosmosDBへ書き戻す場合) スループット超過(HTTP429)によるリトライロジック
+          - 一定回数までのリトライはSDKを利用している場合は自動的に対応する 
 
 - UPDATE or INSERT?
-  - 本ハンズオンではすべて追記とした
-  - UPDATEが必要なケースでは、UPSERTロジックを組み込む必要がある
-    - データを検索してあればUPDATE、なければINSERT
+  - 本ハンズオンではすべて「追記」とした 
+  - UPDATEが必要なケースでは、UPSERT(UPdate or inSERT)ロジックを組み込む必要がある
+    - キー項目でデータを検索して存在すればUPDATE、なければINSERT
     - PostgreSQLの制約を利用した疑似UPSERT句 [外部サイト記事](https://resanaplaza.com/2023/01/29/%e3%80%90%e5%ae%9f%e7%94%a8%e3%80%91postgresql%e3%81%a7%e4%bd%bf%e3%81%86upsert%e3%81%ae%e6%9b%b8%e3%81%8d%e6%96%b9%e3%81%a8%e6%b3%a8%e6%84%8f%e7%82%b9/)
 
 ### Cosmos DB for NoSQLとCosmos DB for PostgreSQLの役割分担  
@@ -285,4 +286,3 @@ public static void Run(IReadOnlyList<Document> input, ILogger log)
 - Cosmos DB for NoSQLはスキーマレスだが、Cosmos DB for PostgreSQLはスキーマあり
   - Functions経由で反映する場合は項目の整合性に注意
   - PostgreSQL側でJSONB格納することも考慮できる
-
