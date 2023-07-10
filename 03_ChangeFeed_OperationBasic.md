@@ -152,6 +152,9 @@ select create_distributed_table('holfnctest','id');
     - 関数アプリのメニュー「高度なツール」内にある、App Services Editor(プレビュー)を選択し、「エディターを開く」をクリックする  
       <img src="./assets/03_12.png" width="400">
       
+    - ComsomsDBTriggerフォルダで右クリックし、"NewFile"  
+      <img src="./assets/03_13.png" widht="400">
+      
     - "functions.proj"というファイルを作成し、Npgsqlに関する下記エントリを記述する(自動で保存される)
 
 ```XML
