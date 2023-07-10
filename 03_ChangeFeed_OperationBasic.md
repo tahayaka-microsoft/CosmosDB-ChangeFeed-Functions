@@ -140,7 +140,18 @@ create table holfnctest (
 );
 ```
 
+- Cosmos DB for PostgreSQLのメニュー「キー」より、接続文字列をコピーしておく
+
+<img src="./assets/03_10.png" width="300">
+
+
 #### 関数の作成
+
+- Azure Functionsのコードを以下のように設定する。「<接続文字列>」部分は事前準備でコピーしたCosmos DB for PostgreSQLの接続文字列を利用する
+
+```CSharp
+```
+- 
 
 #### テスト
 
