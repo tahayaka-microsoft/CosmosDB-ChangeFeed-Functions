@@ -1,5 +1,7 @@
 # Change Feed 概要
 
+[目次に戻る](./readme.md)
+
 ## Change Feedとは？
   Change Feed(変更フィード)はCosmos DB for NoSQLの**コンテナーに対して行われた変更の永続的な記録**である。
   変更されたドキュメントは変更された順に並べ替えられた一覧に出力される。  
