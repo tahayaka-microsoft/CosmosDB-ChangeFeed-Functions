@@ -146,6 +146,18 @@ select create_distributed_table('holfnctest','id');
 
 <img src="./assets/03_10.png" width="400">
 
+-functions.projにNpgsql(PostgreSQL接続用C#ライブラリ)に関するエントリを記述する
+
+```XML
+<Project Sdk="Microsoft.NET.Sdk">
+    <PropertyGroup>
+        <TargetFramework>netstandard2.0</TargetFramework>
+    </PropertyGroup>
+    <ItemGroup>
+        <PackageReference Include="Npgsql" Version="7.0.4" />
+    </ItemGroup>
+</Project>
+```
 
 #### 関数の作成
 
@@ -153,7 +165,6 @@ select create_distributed_table('holfnctest','id');
 
 ```CSharp
 ```
-- 
 
 #### テスト
 
