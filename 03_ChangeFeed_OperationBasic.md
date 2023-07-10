@@ -148,7 +148,11 @@ select create_distributed_table('holfnctest','id');
 
 <img src="./assets/03_10.png" width="400">
 
--functions.projにNpgsql(PostgreSQL接続用C#ライブラリ)に関するエントリを記述する
+- Npgsql(PostgreSQL接続用C#ライブラリ)の導入
+    - 関数アプリのメニュー「高度なツール」内にある、App Services Editor(プレビュー)を選択し、「エディターを開く」をクリックする  
+      <img src="./assets/03_12.png" width="400">
+      
+    - "functions.proj"というファイルを作成し、Npgsqlに関する下記エントリを記述する(自動で保存される)
 
 ```XML
 <Project Sdk="Microsoft.NET.Sdk">
@@ -160,6 +164,8 @@ select create_distributed_table('holfnctest','id');
     </ItemGroup>
 </Project>
 ```
+
+> 関数アプリのコードを保存するとコンパイルが走るが、その際に必要なライブラリのインポートが実行される。
 
 #### 関数の作成
 
