@@ -242,7 +242,7 @@ Cosmos DBのスケールアウトを活用するためには以下の条件を�
 
 ```mermaid
 graph TD
-  cap["論理パーティション<BR>(20GBまで)"]
+  cap["論理パーティション<BR>(MAX 20GB)"]
   subgraph Con["コンテナー"]
     A["PK=A"]
     B["PK=B"]
@@ -268,9 +268,9 @@ graph TD
   B --> p2
   C --> p2
   D --> p3
-  p1 -.- cap2["物理パーティション<BR>(10,000RU/s & 50GB)"] 
-  p2 -.- cap2
-  p3 -.- cap2
+  p1 -.RU分配.- cap2["物理パーティション<BR>(MAX 10,000RU/s & 50GB)"] 
+  p2 -.RU分配.- cap2
+  p3 -.RU分配.- cap2
   style p1 font-size:8px,fill:#7BCCAC,stroke:#8C8
   style p2 font-size:8px,fill:#7BCCAC,stroke:#8C8
   style p3 font-size:8px,fill:#7BCCAC,stroke:#8C8
