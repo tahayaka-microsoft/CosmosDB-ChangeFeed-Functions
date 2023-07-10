@@ -133,9 +133,11 @@ graph LR
 
 ```SQL
 create table holfnctest (
+  seq SERIAL not null,
   id varchar(16) not null,
   name varchar(64),
   age bigint,
+  create_at timestamp,
   other jsonb
 );
 
