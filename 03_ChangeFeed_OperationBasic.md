@@ -261,7 +261,9 @@ public static void Run(IReadOnlyList<Document> input, ILogger log)
 ### デバッグ
 - Portal開発はデバッグしづらい・・・
     - コード保存時にコンパイルが走るので、コンパイルエラーならログストリームを見ればわかる
+      <img src="./assets/03_14.png" width="600">  
     - 逆にDBエラーなどはログストリームでは分からない → Application Insightsのログクエリで分かる
+      <img src="./assets/03_15.png" width="600">
 
 ### アプリケーション
 - エラーハンドリング
