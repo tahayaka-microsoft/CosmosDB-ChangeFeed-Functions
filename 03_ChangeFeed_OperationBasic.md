@@ -156,19 +156,94 @@ select create_distributed_table('holfnctest','id');
         <TargetFramework>netstandard2.0</TargetFramework>
     </PropertyGroup>
     <ItemGroup>
-        <PackageReference Include="Npgsql" Version="7.0.4" />
+        <PackageReference Include="Npgsql" Version="4.0.3" />
     </ItemGroup>
 </Project>
 ```
 
 #### 関数の作成
 
-- Azure Functionsのコードを以下のように設定する。「<接続文字列>」部分は事前準備でコピーしたCosmos DB for PostgreSQLの接続文字列を利用する
+- Azure Functionsのコードを以下のように設定する。connStringは自分の環境に合わせて適宜入れ替える
 
 ```CSharp
+#r "Microsoft.Azure.DocumentDB.Core"
+
+using System;
+using System.Collections.Generic;
+using Microsoft.Azure.Documents;
+using Npgsql;
+
+public static void Run(IReadOnlyList<Document> input, ILogger log)
+{
+
+    var connString = "Server=<コーディネーターURL>;Port=5432;Database=citus;Username=citus;Password=<パスワード>;SSLMode=Prefer";
+    var conn = new NpgsqlConnection(connString);
+    conn.Open();
+
+    foreach ( var doc in input ) {
+
+        log.LogInformation(input[0].ToString());
+
+        using var cmd = new NpgsqlCommand("INSERT INTO holfnctest (id,name,age,create_at) VALUES (@p1,@p2,@p3,@p4)", conn);
+
+        var create_at = DateTime.Now;
+        cmd.Parameters.AddWithValue("p1", doc.GetPropertyValue<string>("id"));
+        cmd.Parameters.AddWithValue("p2", doc.GetPropertyValue<string>("name"));
+        cmd.Parameters.AddWithValue("p3", doc.GetPropertyValue<int>("age"));
+        cmd.Parameters.AddWithValue("p4", create_at);
+        
+        log.LogInformation("Throwing Database id='" + doc.GetPropertyValue<string>("id") + "' Start...");
+        log.LogInformation("create_at will be '" + create_at.ToString() + "'.");
+
+        var ret = cmd.ExecuteNonQuery();
+        
+        log.LogInformation("Throwing Database Ended. ret=[" + ret + "].");
+        
+    }
+}
 ```
 
 #### テスト
 
-- Cosmos DB for NoSQLアカウント側で下記のアイテムを作成する
-- 
+- Cosmos DB for NoSQLアカウント側で下記のアイテムを作成する、もしくは既存のアイテムを更新する
+
+※このハンズオンで作成した関数では、idが同じ場合でも**データを追記する**
+
+```JSON
+{
+    "id": "012345",
+    "name": "Satya Nadera",
+    "age": 55
+}
+```
+- Cosmos DB for PostgreSQL にpsqlでアクセスし、`select * from holfnctest;`を実行し、データが反映されているることを確認する
+
+<img src="./assets/03_11.png" width="400">
+
+### 実装上の考慮点(ハンズオンとの比較)
+
+- 開発言語・開発ツール
+    - 今回はAzure Portalへのアクセスへの利便性**だけ**を考慮して、Windows環境(Portal開発)を選択している。
+        - クライアントから開発環境へのネットワークアクセスが取れるのであれば以下ツールによる開発も実施可能
+            - Visual Studio
+                  - ライセンスが必要だが、最も開発しやすい
+            - Visual Studio Code + 拡張機能
+                  - コマンドライン操作などがあるが、デバッグやローカル開発ができる
+
+    - Cosmos DB SDKはC#(.NET)が最も高機能かつ最新版の提供が速い。以降、Java > Python = JavaScript > Go となる。
+
+- アプリケーション
+    - エラーハンドリング
+      - 本ハンズオンではエラーハンドリングを組み込んでない
+          - スループット超過(HTTP429)によるリトライロジック
+          - サービスへのアクセス不可が続いたときの例外
+
+- Cosmos DB for NoSQLとCosmos DB for PostgreSQLの役割分担
+      - NoSQL側はアプリケーションで小さいデータを取るアプリに向く
+      - PostgreSQL側はある程度のデータ量を使った分析や集計ワークロードに向く
+
+- データモデル
+   - Cosmos DB for NoSQLはスキーマレスだが、Cosmos DB for PostgreSQLはスキーマあり
+      - Functions経由で反映する場合は項目の整合性に注意
+      - PostgreSQL側でJSONB格納することも考慮できる
+
