@@ -133,16 +133,18 @@ graph LR
 
 ```SQL
 create table holfnctest (
-  id varchar(16),
+  id varchar(16) not null,
   name varchar(64),
   age bigint,
   other jsonb
 );
+
+select create_distributed_table('holfnctest','id');
 ```
 
-- Cosmos DB for PostgreSQLのメニュー「キー」より、接続文字列をコピーしておく
+- Cosmos DB for PostgreSQLのメニュー「接続文字列」より、"PostgreSQL Connection String"をコピーしておく
 
-<img src="./assets/03_10.png" width="300">
+<img src="./assets/03_10.png" width="400">
 
 
 #### 関数の作成
