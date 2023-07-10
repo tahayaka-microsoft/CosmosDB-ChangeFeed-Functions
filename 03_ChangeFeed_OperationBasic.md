@@ -217,14 +217,31 @@ public static void Run(IReadOnlyList<Document> input, ILogger log)
 
 ```JSON
 {
-    "id": "012345",
+    "id": "00001",
     "name": "Satya Nadella",
     "age": 55
 }
 ```
-- Cosmos DB for PostgreSQL にpsqlでアクセスし、`select * from holfnctest;`を実行し、データが反映されているることを確認する
 
-<img src="./assets/03_11.png" width="500">
+```JSON
+{
+    "id": "00002",
+    "name": "Amy Hood",
+    "age": 51
+}
+```
+
+```JSON
+{
+    "id": "00003",
+    "name": "Judson Althoff",
+    "age": 50
+}
+```
+
+- Cosmos DB for PostgreSQL にpsqlでアクセス後、`select * from holfnctest;`を実行し、データが反映されていることを確認する
+
+<img src="./assets/03_11.png" width="600">
 
 ### 実装上の考慮点(ハンズオンとの比較)
 
