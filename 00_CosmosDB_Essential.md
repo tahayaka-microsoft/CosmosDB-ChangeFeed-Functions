@@ -236,7 +236,46 @@ Cosmos DBのスケールアウトを活用するためには以下の条件を�
 
 ## パーティション
 
+<!--
 <img src="./assets/00_02.png" width=600>
+-->
+
+```mermaid
+graph TD
+  cap["論理パーティション<BR>(20GBまで)"]
+  subgraph Con["コンテナー"]
+    A["PK=A"]
+    B["PK=B"]
+    C["PK=C"]
+    D["PK=D"]
+  end
+  cap -.- A
+  cap -.- B
+  cap -.- C
+  cap -.- D
+  style cap stroke-width:0, fill-opacity:0%
+  subgraph p1["パーティション1"]
+    A2[A]
+  end
+  subgraph p2["パーティション2"]
+    B2[B]
+    C2[C]
+  end
+  subgraph p3["パーティション3"]
+    D2[D]
+  end
+  A --> p1
+  B --> p2
+  C --> p2
+  D --> p3
+  p1 -.- cap2["物理パーティション<BR>(10,000RU/s & 50GB)"] 
+  p2 -.- cap2
+  p3 -.- cap2
+  style p1 font-size:8px,fill:#7BCCAC,stroke:#8C8
+  style p2 font-size:8px,fill:#7BCCAC,stroke:#8C8
+  style p3 font-size:8px,fill:#7BCCAC,stroke:#8C8
+  style cap2 stroke-width:0, fill-opacity:0%
+```
 
 <!---
 ```mermaid
