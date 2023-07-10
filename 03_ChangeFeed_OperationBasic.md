@@ -246,38 +246,38 @@ public static void Run(IReadOnlyList<Document> input, ILogger log)
 ## 実装上の考慮点(ハンズオンとの比較)
 
 ### 開発言語・開発ツール
-    - 今回はAzure Portalへのアクセスへの利便性**だけ**を考慮して、Windows環境(Portal開発)を選択している。
-        - クライアントから開発環境へのネットワークアクセスが取れるのであれば以下ツールによる開発も実施可能
-            - Visual Studio
-                  - ライセンスが必要だが、最も開発しやすい
-            - Visual Studio Code + 拡張機能
-                  - コマンドライン操作などがあるが、デバッグやローカル開発ができる
+- 今回はAzure Portalへのアクセスへの利便性**だけ**を考慮して、Windows環境(Portal開発)を選択している。
+    - クライアントから開発環境へのネットワークアクセスが取れるのであれば以下ツールによる開発も実施可能
+        - Visual Studio
+              - ライセンスが必要だが、最も開発しやすい
+        - Visual Studio Code + 拡張機能
+              - コマンドライン操作などがあるが、デバッグやローカル開発ができる
 
-    - Cosmos DB SDKはC#(.NET)が最も高機能かつ最新版の提供が速い。以降、Java > Python = JavaScript > Go となる。
+- Cosmos DB SDKはC#(.NET)が最も高機能かつ最新版の提供が速い。以降、Java > Python = JavaScript > Go となる。
 
 ### デバッグ
-  - Portal開発はデバッグしづらい・・・
+- Portal開発はデバッグしづらい・・・
     - コード保存時にコンパイルが走るので、コンパイルエラーならログストリームを見ればわかる
     - 逆にDBエラーなどはログストリームでは分からない → Application Insightsのログクエリで分かる
 
 ### アプリケーション
-    - エラーハンドリング
-      - 本ハンズオンではエラーハンドリングを組み込んでない
-          - スループット超過(HTTP429)によるリトライロジック
-          - サービスへのアクセス不可が続いたときの例外
-  
-    - UPDATE or INSERT?
-      - 本ハンズオンではすべて追記とした
-      - UPDATEが必要なケースでは、UPSERTロジックを組み込む必要がある
-        - データを検索してあればUPDATE、なければINSERT
-        - PostgreSQLの制約を利用した疑似UPSERT句 [外部サイト記事](https://resanaplaza.com/2023/01/29/%e3%80%90%e5%ae%9f%e7%94%a8%e3%80%91postgresql%e3%81%a7%e4%bd%bf%e3%81%86upsert%e3%81%ae%e6%9b%b8%e3%81%8d%e6%96%b9%e3%81%a8%e6%b3%a8%e6%84%8f%e7%82%b9/)
+- エラーハンドリング
+  - 本ハンズオンではエラーハンドリングを組み込んでない
+      - スループット超過(HTTP429)によるリトライロジック
+      - サービスへのアクセス不可が続いたときの例外
+
+- UPDATE or INSERT?
+  - 本ハンズオンではすべて追記とした
+  - UPDATEが必要なケースでは、UPSERTロジックを組み込む必要がある
+    - データを検索してあればUPDATE、なければINSERT
+    - PostgreSQLの制約を利用した疑似UPSERT句 [外部サイト記事](https://resanaplaza.com/2023/01/29/%e3%80%90%e5%ae%9f%e7%94%a8%e3%80%91postgresql%e3%81%a7%e4%bd%bf%e3%81%86upsert%e3%81%ae%e6%9b%b8%e3%81%8d%e6%96%b9%e3%81%a8%e6%b3%a8%e6%84%8f%e7%82%b9/)
 
 ### Cosmos DB for NoSQLとCosmos DB for PostgreSQLの役割分担  
-  - NoSQL側はアプリケーションで小さいデータを取るアプリに向く  
-  - PostgreSQL側はある程度のデータ量を使った分析や集計ワークロードに向く  
+- NoSQL側はアプリケーションで小さいデータを取るアプリに向く  
+- PostgreSQL側はある程度のデータ量を使った分析や集計ワークロードに向く  
 
 ### データモデル
-   - Cosmos DB for NoSQLはスキーマレスだが、Cosmos DB for PostgreSQLはスキーマあり
-      - Functions経由で反映する場合は項目の整合性に注意
-      - PostgreSQL側でJSONB格納することも考慮できる
+- Cosmos DB for NoSQLはスキーマレスだが、Cosmos DB for PostgreSQLはスキーマあり
+  - Functions経由で反映する場合は項目の整合性に注意
+  - PostgreSQL側でJSONB格納することも考慮できる
 
