@@ -66,7 +66,46 @@
 
 - 以下のコードをコピーし、貼り付ける
 
-- Cosmos DBのデータエクスプローラーから
+```CSharp
+#r "Microsoft.Azure.DocumentDB.Core"
+using System;
+using System.Collections.Generic;
+using Microsoft.Azure.Documents;
+
+public static void Run(IReadOnlyList<Document> input, ILogger log)
+{
+    if (input != null && input.Count > 0)
+    {
+        log.LogInformation("Documents modified " + input.Count);
+        log.LogInformation("First document Id " + input[0].Id);
+    }
+
+    foreach ( var doc in input ) {
+        var jsonString = doc.ToString();
+
+        log.LogInformation("jsonString : " + jsonString);
+
+    }
+}
+```
+
+- Cosmos DBのデータエクスプローラーから下記のデータを新規に作成する(内容は任意に変更してもよい)
+
+```JSON
+{
+  "id":"01234",
+  "name":"John Smith",
+  "age": 23
+}
+```
+
+- Azure Functionsの関数エディタ、左メニューの"モニター"を確認する(ログ反映に5分ほどかかることがある)
+
+<img src="./assets/03_09.png" width="400">
+
+- 該当する時間をクリックするとログが表示される
+
+<img src="./assets/03_10.png" width="400">
 
 ### 2. CosmosDBから受信したレコードをCosmos DB for PostgreSQLのテーブルに書き込む
 
