@@ -102,7 +102,7 @@ WHERE c.price > 10
      - 受け取ったデータを複数のサービスに分配したり、時間差で抽出したりする場合に向いている
 
 ## 以下のサービスでもCosmos DBが利用されている
-  - Microsoft Teams
+  - [Microsoft Teams](https://www.microsoft.com/ja-jp/microsoft-teams/group-chat-software)
   - [Open AI - ChatGPT](https://chat.openai.com/)
   - [弁護士ドットコム - AI法律相談](https://chat.bengo4.com/)
 
