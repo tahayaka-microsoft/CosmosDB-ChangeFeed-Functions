@@ -89,6 +89,9 @@ public static void Run(IReadOnlyList<Document> input, ILogger log)
 }
 ```
 
+- ブラウザのタブをもう１つ起動し、Azure Portalの関数アプリ内メニューの「ログストリーム」を表示しておく
+  <img src="./assets/03_14.png" width="600">
+
 - Cosmos DBのデータエクスプローラーから下記のデータを新規に作成する(内容は任意に変更してもよい)
 
 ```JSON
