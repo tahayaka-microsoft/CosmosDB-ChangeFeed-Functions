@@ -3,7 +3,12 @@
 > 本リポジトリではCosmos DB for **NoSQL**を中心に取り扱う。<br>
 > その他のCosmos DB APIについての説明は[公式ドキュメント](https://learn.microsoft.com/ja-jp/azure/cosmos-db/)を参照のこと
 
+本リポジトリの内容は下図の②に相当する。  
+![](./assets/readme_01.png)
+
 # 目次
+
+※表記された時間は3時間のワークショップを基準とした目安
 
 1. [Cosmos DB NoSQL 概要](./00_CosmosDB_Essential.md) (1hour)
 1. [Cosmos DB NoSQLの操作](./01_CreateAndOperationBasic_CosmosDB.md) (30min)
