@@ -37,6 +37,8 @@
 
 ### 1. CosmosDBから受信したレコードの情報をログに表示
 
+#### 関数の作成
+
 - Azure Portalから関数アプリを開き、新規作成
 
 <img src="./assets/03_04.png" width="400">
@@ -64,7 +66,8 @@
 
 <img src="./assets/03_07.png" width="400">
 
-- 以下のコードをコピーし、貼り付ける
+- 以下のコードをコピーし、貼り付けて、「保存」
+  - 初期のコードからは`foreach ( var doc in input ) {`以降のブロックを追記すればよい
 
 ```CSharp
 #r "Microsoft.Azure.DocumentDB.Core"
@@ -89,6 +92,8 @@ public static void Run(IReadOnlyList<Document> input, ILogger log)
 }
 ```
 
+#### 関数のテスト
+
 - ブラウザのタブをもう１つ起動し、Azure Portalの関数アプリ内メニューの「ログストリーム」を表示しておく
   <img src="./assets/03_14.png" width="600">
 
@@ -101,6 +106,8 @@ public static void Run(IReadOnlyList<Document> input, ILogger log)
   "age": 23
 }
 ```
+
+- ログストリームに変更内容が表示されることを確認する
 
 - Azure Functionsの関数エディタ、左メニューの"モニター"を確認する(ログ反映に5分ほどかかることがある)
 
