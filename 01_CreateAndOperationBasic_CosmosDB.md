@@ -1,10 +1,10 @@
-# Cosmos DB NoSQLの操作
+# Cosmos DB for NoSQLの操作
 
 [目次へ戻る](./readme.md)
 
-## CosmosDBアカウントの作成
+## Cosmos DBアカウントの作成
    
-- Azure PortalよりCosmosDBを検索
+- Azure PortalよりCosmos DBを検索
 
 <img src="./assets/01_01.png" width="200">
 
@@ -25,7 +25,7 @@
 
 ### データベースの作成
 
-- ポータルからCosmosDBアカウントを選択し、「データエクスプローラー」を開く  
+- ポータルからCosmos DBアカウントを選択し、「データエクスプローラー」を開く  
 <img src="./assets/01_06.png" width="200">
 
 - データエクスプローラーより"New Container"の横の"v"をクリックし、"New Database"を押下  
