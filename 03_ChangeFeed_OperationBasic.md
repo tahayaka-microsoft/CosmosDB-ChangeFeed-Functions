@@ -291,6 +291,11 @@ public static void Run(IReadOnlyList<Document> input, ILogger log)
       - (CosmosDBへ書き戻す場合) スループット超過(HTTP429)によるリトライロジック
           - 一定回数までのリトライはSDKを利用している場合は自動的に対応する 
 
+- パスワード・接続文字列の隠ぺい
+  - 本ハンズオンではDB接続文字列・パスワードをソース内に記述していたが、実開発では重要情報をソースに持たないようにすべき
+    - Funcitons/Web Appsなどは、環境変数として登録することができる
+    - マネージドIDが使えるサービスであれば、そちらを推奨
+
 - UPDATE or INSERT?
   - 本ハンズオンではすべて「追記」とした 
   - UPDATEが必要なケースでは、UPSERT(UPdate or inSERT)ロジックを組み込む必要がある
