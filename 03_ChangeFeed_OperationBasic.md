@@ -191,7 +191,8 @@ select create_distributed_table('holfnctest','id');
 
 #### 関数の作成
 
-- Azure Functionsのコードを以下のように設定する。connStringは自分の環境に合わせて適宜入れ替える
+- Azure Functionsのコードを以下のように設定する。  
+  connStringの`<サーバーURL>`,`<パスワード>`は自分の環境に合わせて適宜入れ替える
 
 ```CSharp
 #r "Microsoft.Azure.DocumentDB.Core"
@@ -204,7 +205,7 @@ using Npgsql;
 public static void Run(IReadOnlyList<Document> input, ILogger log)
 {
 
-    var connString = "Server=c-cdbholpsql.fzg3re4n3bajdp.postgres.cosmos.azure.com;Port=5432;Database=citus;Username=citus;Password=ms-haya01;SSLMode=Prefer";
+    var connString = "Server=<サーバーURL>;Port=5432;Database=citus;Username=citus;Password=<パスワード>;SSLMode=Prefer";
     var conn = new NpgsqlConnection(connString);
     conn.Open();
 
