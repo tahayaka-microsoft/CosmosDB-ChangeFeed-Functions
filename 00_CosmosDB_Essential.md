@@ -384,10 +384,21 @@ graph LR
         D[/Change Feed/]
         A--自動連携-->D 
     end
-    subgraph Azure Functions
+    subgraph af1[Azure Functions]
         B[["Cosmos DB Trigger"]] 
     end
-    subgraph その他サービス
+    subgraph af2[Azure Functions]
+        F[["Cosmos DB Trigger"]] 
+    end
+    subgraph ss2[その他サービス]
+        E["Azure Storage
+        Azure Search
+        Azure Event Hubs
+        Azure Service Bus
+        Azure Cosmos DB
+        (別コンテナー)"] 
+    end
+    subgraph ss1[その他サービス]
         C["Azure Storage
         Azure Search
         Azure Event Hubs
@@ -396,8 +407,13 @@ graph LR
         (別コンテナー)"] 
     end
     D --"(自動取得)"--> B
+    D -."(自動取得)".-> F
     B --"Functionsで
     プログラム"--> C
+    F -."Functionsで
+    プログラム".-> E
+    style af2 stroke-dasharray: 5 5
+    style ss2 stroke-dasharray: 5 5
 ```
 
 Cosmos DBのコンテナーに登録・変更されたアイテムの情報の順序だてた記録をChange Feedと呼ぶ。
