@@ -101,8 +101,8 @@ Azure FunctionsはAzureにおける**サーバーレス型アプリケーショ�
 
 Azure Functionsを用いたアプリケーション開発は以下の3つの方式で行うことができる。
 
-|方式|概要|備考|
-|---|---|---|
-|Visual Studio|Visual StudioにAzure開発ワークロードを含めて開発プロジェクトを作成する||
-|Visual Studio Code|VS Code+AzureFunctions拡張機能を用いて開発する|JavaScriptとC#が対応|
-|Azure Portal|Azure Portal上のツールを使って開発する|開発できる言語・環境が限定される(C#スクリプトベースの場合はWindowsプラットフォームが必須)
+|方式|概要|
+|---|---|
+|Visual Studio|Visual StudioにAzure開発ワークロードを含めて開発プロジェクトを作成する|
+|Visual Studio Code|VS Code+AzureFunctions拡張機能を用いて開発する|
+|Azure Portal|Azure Portal上のツールを使って開発する<BR>開発できる言語・環境が限定される(C#スクリプトベースの場合はWindowsプラットフォームが必須)
