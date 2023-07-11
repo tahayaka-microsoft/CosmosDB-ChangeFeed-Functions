@@ -185,7 +185,7 @@ using Npgsql;
 public static void Run(IReadOnlyList<Document> input, ILogger log)
 {
 
-    var connString = "Server=<コーディネーターURL>;Port=5432;Database=citus;Username=citus;Password=<パスワード>;SSLMode=Prefer";
+    var connString = "Server=c-cdbholpsql.fzg3re4n3bajdp.postgres.cosmos.azure.com;Port=5432;Database=citus;Username=citus;Password=ms-haya01;SSLMode=Prefer";
     var conn = new NpgsqlConnection(connString);
     conn.Open();
 
@@ -201,12 +201,12 @@ public static void Run(IReadOnlyList<Document> input, ILogger log)
         cmd.Parameters.AddWithValue("p3", doc.GetPropertyValue<int>("age"));
         cmd.Parameters.AddWithValue("p4", create_at);
         
-        log.LogInformation("Throwing Database id='" + doc.GetPropertyValue<string>("id") + "' Start...");
+        log.LogInformation("Throwing Database Command : id='" + doc.GetPropertyValue<string>("id") + "' Start...");
         log.LogInformation("create_at will be '" + create_at.ToString() + "'.");
 
         var ret = cmd.ExecuteNonQuery();
         
-        log.LogInformation("Throwing Database Ended. ret=[" + ret + "].");
+        log.LogInformation("Throwing Database Command Ended. ret=[" + ret + "].");
         
     }
 }
