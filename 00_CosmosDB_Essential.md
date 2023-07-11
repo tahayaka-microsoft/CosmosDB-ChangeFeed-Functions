@@ -390,21 +390,14 @@ graph LR
     subgraph af2[Azure Functions]
         F[["Cosmos DB Trigger"]] 
     end
-    subgraph ss2[その他サービス]
+    subgraph ss2[その他Azure Data Services ]
         E["Azure Storage
         Azure Search
-        Azure Event Hubs
-        Azure Service Bus
-        Azure Cosmos DB
+        Cosmos DB for NoSQL
         (別コンテナー)"] 
     end
-    subgraph ss1[その他サービス]
-        C["Azure Storage
-        Azure Search
-        Azure Event Hubs
-        Azure Service Bus
-        Azure Cosmos DB
-        (別コンテナー)"] 
+    subgraph ss1[RDBMS連携・負荷分散]
+        C["Cosmos DB for PostgreSQL"] 
     end
     D --"(自動取得)"--> B
     D -."(自動取得)".-> F
