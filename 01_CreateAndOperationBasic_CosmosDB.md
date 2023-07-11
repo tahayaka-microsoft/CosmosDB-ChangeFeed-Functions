@@ -44,7 +44,7 @@
 ### コンテナーの作成
 
 - データエクスプローラーより"New Container"をクリック  
-<img src=./assets/01_09.png" width="400">
+<img src="./assets/01_09.png" width="400">
 
 - 右側に現れた入力欄に以下の情報を入力
 <img src="./assets/01_10.png" width="400">
@@ -164,11 +164,11 @@ select count(1) AS CNT from c
 ```JSON
 [
     {
-        "$1": 2
+        "CNT": 2
     }
 ]
 ```
-※`count(1)`に対して別名がついてないので"$1"になっている。結果の件数はコンテナーのデータ件数によっては異なる。
+※結果の件数はコンテナーのデータ件数によっては異なる。
 
 ### クエリパターン
 
@@ -304,9 +304,9 @@ WHERE c.sku = "teapo-surfboard-72109"
 クエリ
 ```SQL
 SELECT VALUE {
-  "name": p.name,
-  "sku": p.sku,
-  "vendor": p.manufacturer.name
+  "name": c.name,
+  "sku": c.sku,
+  "vendor": c.manufacturer.name
 }
 FROM c
 WHERE c.sku = "teapo-surfboard-72109"
