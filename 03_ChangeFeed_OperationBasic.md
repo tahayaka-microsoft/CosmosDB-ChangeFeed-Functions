@@ -37,6 +37,15 @@
 
 ### 1. CosmosDBから受信したレコードの情報をログに表示
 
+```mermaid
+graph LR
+  subgraph sg1["CosmosDB for NoSQL"]
+    A[(コンテナー)] --> B[/"Change Feed"/] 
+  end
+  B --CosmosDBTrigger--> C[[Azure Fucntions]]
+  C --> D[/ログ/]
+```
+
 #### 関数の作成
 
 - Azure Portalから関数アプリを開き、新規作成
@@ -124,11 +133,11 @@ graph LR
   subgraph sg1["CosmosDB for NoSQL"]
     A[(コンテナー)] --> B[/"Change Feed"/] 
   end
-  B --> C[[Azure Fucntions]]
+  B --CosmosDBTrigger--> C[[Azure Fucntions]]
   subgraph sg2["CosmosDB for PostgreSQL"]
     D[(テーブル)]
   end
-  C-->D
+  C--Npgsql-->D
 ```
 
 #### 事前準備 : Cosmos DB for PostgreSQL上にテーブルを作成
