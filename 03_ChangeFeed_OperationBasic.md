@@ -142,7 +142,10 @@ graph LR
 
 #### 事前準備 : Cosmos DB for PostgreSQL上にテーブルを作成
 
-- ‼️ CosmosDB for PostgreSQLのネットワーク設定で、"Allow public access from Azure services and resources within Azure to this cluster"にチェックが入っていることを確認する
+- Cosmos DB for PostgreSQLのクラスターを作成する。すでに存在する場合は起動する。
+
+- ‼️ Cosmos DB for PostgreSQL ファイアウォールルール設定
+  - CosmosDB for PostgreSQLのネットワーク設定で、"Allow public access from Azure services and resources within Azure to this cluster"にチェックが入っていることを確認する
 
 <img src="./assets/03_08.png" width="400">
 
