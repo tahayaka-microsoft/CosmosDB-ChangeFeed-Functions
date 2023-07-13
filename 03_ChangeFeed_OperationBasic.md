@@ -307,7 +307,7 @@ public static void Run(IReadOnlyList<Document> input, ILogger log)
     - PostgreSQLの制約を利用した疑似UPSERT句 [外部サイト記事](https://resanaplaza.com/2023/01/29/%e3%80%90%e5%ae%9f%e7%94%a8%e3%80%91postgresql%e3%81%a7%e4%bd%bf%e3%81%86upsert%e3%81%ae%e6%9b%b8%e3%81%8d%e6%96%b9%e3%81%a8%e6%b3%a8%e6%84%8f%e7%82%b9/)
 
 ### Cosmos DB for NoSQLとCosmos DB for PostgreSQLの役割分担  
-- NoSQL側はアプリケーションで小さいデータを取るアプリに向く  
+- NoSQL側はアプリケーションで小さいデータを同時接続の多い環境で抽出するアプリや、書き込みが重いワークロードに向く  
 - PostgreSQL側はある程度のデータ量を使った分析や集計ワークロードに向く  
 
 ### データモデル
