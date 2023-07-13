@@ -306,11 +306,16 @@ public static void Run(IReadOnlyList<Document> input, ILogger log)
     - キー項目でデータを検索して存在すればUPDATE、なければINSERT
     - PostgreSQLの制約を利用した疑似UPSERT句 [外部サイト記事](https://resanaplaza.com/2023/01/29/%e3%80%90%e5%ae%9f%e7%94%a8%e3%80%91postgresql%e3%81%a7%e4%bd%bf%e3%81%86upsert%e3%81%ae%e6%9b%b8%e3%81%8d%e6%96%b9%e3%81%a8%e6%b3%a8%e6%84%8f%e7%82%b9/)
 
-### Cosmos DB for NoSQLとCosmos DB for PostgreSQLの役割分担  
-- NoSQL側はアプリケーションで小さいデータを同時接続の多い環境で抽出するアプリや、書き込みが重いワークロードに向く  
-- PostgreSQL側はある程度のデータ量を使った分析や集計ワークロードに向く  
-
 ### データモデル
 - Cosmos DB for NoSQLはスキーマレスだが、Cosmos DB for PostgreSQLはスキーマあり
   - Functions経由で反映する場合は項目の整合性に注意
-  - PostgreSQL側でJSONB格納することも考慮できる
+  - Cosmos DB for PostgreSQL側でJSONB格納することも考慮できる
+
+### Cosmos DB for NoSQLとCosmos DB for PostgreSQLの役割分担  
+- Cosmos DB for NoSQL
+  - アプリケーションで小さいデータを同時接続の多い環境で抽出するアプリのデータストアとし、柔軟な拡張性を担保する
+  - データ書き込みが重くなる部分を先にCosmosDBで受け取りChangeFeedを使ってRDBMSに遅延書き込み(オフロード)することでRDBMS側の無駄なスケールアップを防ぐ  
+- Cosmos DB for PostgreSQL
+  - ある程度のデータ量を使った分析や集計ワークロードを担わせ、同時多発的なクエリを短時間で処理させる  
+
+
