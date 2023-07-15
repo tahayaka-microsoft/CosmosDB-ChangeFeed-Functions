@@ -8,9 +8,9 @@
 
 # 目次
 
-※表記された時間は3時間のワークショップを基準とした目安
+※表記された時間は目安
 
-1. [Cosmos DB for NoSQL 概要](./00_CosmosDB_Essential.md) (1hour)
-1. [Cosmos DB for NoSQLの操作](./01_CreateAndOperationBasic_CosmosDB.md) (30min)
+1. [Cosmos DB for NoSQL 概要](./00_CosmosDB_Essential.md) (1.5hour)
+1. [Cosmos DB for NoSQLの操作](./01_CreateAndOperationBasic_CosmosDB.md) (1hour)
 1. [Cosmos DB Change Feed 概要](./02_ChangeFeed_Essential.md) (30min)
-1. [Azure Functionsを利用したCosmos DB Change Feedの操作](./03_ChangeFeed_OperationBasic.md) (1hour)
+1. [Azure Functionsを利用したCosmos DB Change Feedの操作](./03_ChangeFeed_OperationBasic.md) (1.5hour)
