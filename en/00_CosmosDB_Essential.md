@@ -121,112 +121,112 @@ WHERE c.price > 10
 
 ## What is Throughput (Request Unit: RU)?
 
-スループットは**コンテナーに対するアイテムの読み書き性能**を規定する。
+Throughput specifies the **read/write performance** of an item to a container.
 
-単位は **RU(Request Unit)** で、1RU = **1KBの読み込みにかかる処理で消費されるリソース**を表す。
+The unit is **RU (Request Unit)**, where 1RU = **1KB of resources** consumed in processing a read.
 
-Cosmos DB for NoSQLの処理性能は、すべてこのRUで計算される。これは、以下の内部処理を含む。
-- 書き込みのためのロック
-- インデックスの書き込み、読み出し、検索
-- データ検索でフィルター条件にヒットしなかった読み込み
+The processing performance of Cosmos DB for NoSQL is calculated entirely in terms of these RUs. This includes the following internal processes
+- Locking for writes
+- Writes, reads, and searches for indexes
+- Reads that did not hit the filter criteria in the data search
 
-読み込み 1KB=1RUを基準とした場合の各操作の消費RUの目安を下表に示す。
+Reads The table below shows the approximate RU consumed by each operation based on 1KB=1RU.
 
-|操作|消費RU(目安)|
+|Operation|Consumption RU (approximate)|
 |---|---:|
-|変更|2~3|
-|書き込み|5~6|
-|クエリー|5~10+|
+|Update|2~3|
+|Write|5~6|
+|Query|5~10+|
 
-これは変更や書き込みではインデックス読み出しや、変更前のデータチェックなどの**内部処理にコストがかかる**ためである。  
-また、クエリーでインデックスを利用できなかった場合、WHERE句でフィルタされたデータが少なかったとしてもそれまでにスキャンしたデータが多いとRUの消費は大きくなる。
+This is because changes and writes require **costly** internal processing, such as index reading and data checking before changes are made.  
+Also, if the index was not available in the query, the RU consumption will be higher if there is a lot of data scanned up to that point, even if the data filtered by the WHERE clause was small.
 
-### スループットの種類
+### Types of Throughput
 
-Cosmos DB for NoSQLでは、次の２つの設定を用いて性能を定義する。
+Cosmos DB for NoSQL uses the following two settings to define performance.
 
-#### プロビジョニングスループット
-- あらかじめスループットを100RU/s単位で定義しておき、その性能を確保(プロビジョニング)する。
-課金単位は100RU/sで、確保された性能以上のリクエストはリクエスト超過(**429**)エラーとして弾かれる。
-- スループットの確保の仕方には「標準」と「自動(オートスケール)」の２つがある
-    - 標準スループット
-        - 常に同じRU/sを確保する。
-    - 自動(オートスケール)スループット
-        - 最大で利用可能なRU/sを確保し、アイドル時は最小1/10までRU/sを下げる。
+#### Provisioning Throughput
+- The throughput is defined in advance in units of 100 RU/s, and the performance is secured (provisioned).
+The billing unit is 100 RU/s. Requests exceeding the allocated performance will be rejected as an over-request (**429**) error.
+- There are two ways to ensure throughput: "standard" and "auto scale".
+    - Standard throughput
+        - The same RU/s is always ensured.
+    - Automatic (auto scale) throughput
+        - Ensure maximum available RU/s, and reduce RU/s to minimum 1/10 when idle.
 
-#### サーバーレス
-- 使用時のみスループットを確保する。
-    - 事前のスループット見積もりが困難な場合に適している  
-- ただし、以下の制限がある
-  - スループットの最大は**20,000RU/s**
-  - ストレージの最大量は**1TB**まで
-- (後述する)物理パーティションが増えることにより、各物理パーティションに割り当てられるRU/sが下がる。
-  - データ容量が**50GBを超えると物理パーティション数が増え**、  
-    20,000RU/sをパーティション数で**均等に配布**する(最大パーティションあたり5,000RU/s)
-  - RU/sの割り当てが少なくなると、急激なデータの増加、処理の集中などによりパフォーマンスが低下することがある
+#### Serverless
+- Ensure throughput only when used.
+    - Suitable when it is difficult to estimate throughput in advance  
+- However, there are the following limitations
+  - Maximum throughput is **20,000 RU/s**.
+  - Maximum amount of storage is limited to **1TB**.
+- As the number of physical partitions (discussed below) increases, the amount of RU/s allocated to each physical partition will drop.
+  - The number of physical partitions increases** as the data volume exceeds **50GB**,  
+    20,000 RU/s will be **equally distributed** by the number of partitions (5,000 RU/s per partition maximum)
+  - Performance may be degraded by rapid data growth, processing concentration, etc. when RU/s allocation is reduced
   
-## データベース・コンテナー・アイテム
+## Database, Container, Items
 
 ```mermaid
 ---
-title: PK=パーティションキー
+title: PK=Partition Key
 ---
 graph LR
-    A[(データベース)] --- B[("コンテナーA
+    A[(Database)] --- B[("Container A
     PK[a]
     400 RU/s")]
-    A --- C[("コンテナーB
+    A --- C[("Container B
     PK[b]
     1,000 RU/s")]
-    C --- E["アイテム
+    C --- E["Item
     (JSON) b(PK)='abc'"]
-    B --- D["アイテム
+    B --- D["Item
     (JSON) a(PK)=1"]
-    B --- F["アイテム
+    B --- F["Item
     (JSON) a(PK)=2"]
 ```
 
-### アイテム
-格納の基本単位。JSONドキュメントが格納される。
+### Item
+The basic unit of storing. JSON documents are stored as items.
 
-JSONドキュメントの項目は自由に定義できるが、コンテナーに定義されている**パーティションキーの値を含める**必要がある。
+The items of the JSON document can be freely defined, but must include the **partition key values** defined in the container.
 
-Cosmos DB for NoSQLでは、**アイテムあたり2MBまで**のサイズ制限がある。
+Cosmos DB for NoSQL has a size limit of **up to 2MB** per item.
 
-各JSONドキュメントにはユーザーが格納した項目以外にシステム管理上のプロパティがいくつか自動的に設定される。
+Each JSON document automatically has some system properties in addition to the items properties by the user.
 
-|システムプロパティ名|目的|
+|System property name|Purpose|
 |---|---|
-|_rid|項目の一意識別子|
-|_etag|オプティミスティック同時実行制御に使用されるエンティティタグ|
-|_ts|項目の最終更新のタイムスタンプ(UNIX時間)|
-|_self|項目のアドレス指定可能なURI|
+|_rid|unique identifier of the item|
+|_etag|Entity tag used for optimistic concurrency control|
+|_ts|Timestamp of the last update of the item (UNIX time)|
+|_self|Addressable URI of the item|
 
-### パーティションキー
+### Partition key
 
-アイテムの格納場所を決める項目。  
-コンテナー作成時に指定が必須であり、コンテナー作成後に変更することはできない。
+Key property that determines where items are stored.  
+It must be specified at the time of container creation and cannot be changed after container creation.
 
-Cosmos DBのスケールアウトを活用するためには以下の条件を満たす項目をパーティションキーとして設定することが望ましい。
+To take advantage of Cosmos DB scale-out, it is desirable to set an item that satisfies the following conditions as a partition key. 
 
-1. 適度に値がばらつくこと。
-   - データ格納時の分散の基準となるので、バラつかないと分散できない 
-   - 少なくとも(総データ量 ÷ 5~10GB)以上のユニーク数を持つことが望ましい。
-2. パーティションキーに設定される値は、アクセスしてくるシステムから常に利用される可能性があること
-   - タイムスタンプなど、いずれアクセス頻度が下がる項目ではないこと
+1. the value should be varied appropriately.
+   - (Since this is the standard for distribution when storing data, it cannot be distributed if it is not varied. 
+   - The number of uniques should be at least (total data volume ÷ 5~10GB). 
+1. The value set in the partition key should always have the possibility of being used by the system accessing it.
+   - The value set in the partition key should not be an item that will eventually be accessed less frequently, such as a timestamp.
 
-パーティションキーの項目は、階層(Hieralchy)を持つことができる。
-階層は3つまで指定可能。上位の階層のみの検索についても効率化される。  
+Partition key entries can have hierarchies.
+Up to 3 hierarchies can be specified. This streamlines searches of only the top level hierarchy.  
 
-例) [Tenant Id] - [User Id] - [Session ID]の3階層で階層型パーティションキーを取る場合:
+Example) If you have a hierarchical partition key with three levels of [Tenant Id] - [User Id] - [Session ID]:
 
-|Where句に含まれる項目|動作|
+|Where clause contains an item|action|
 |-----|-----|
-|[Tenant Id][User Id][Session Id]|完全なインデックスサーチ|
-|[Tenant Id][User Id]|部分的なインデックスサーチ|
-|[Tenant Id]|部分的なインデックスサーチ|
-|[User Id][Session Id]|インデックス無効|
-|[Session Id]|インデックス無効|
+|[Tenant Id][User Id][Session Id]|complete index search|
+|[Tenant Id][User Id]|partial index search|
+|[Tenant Id]|partial index search|
+|[User Id][Session Id]|Index search disabled|
+|[Session Id]|Index search disabled|
 
 
 ### コンテナー
