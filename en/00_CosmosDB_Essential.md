@@ -1,20 +1,20 @@
-# Cosmos DB for NoSQL 概要
+# Cosmos DB for NoSQL Overview
 
-[目次へもどる](./readme.md)
+[Return to TOC](./readme.md)
 
-## Cosmos DB for NoSQLとは？
+## What is Cosmos DB for NoSQL?
 
 <img src="./assets/00_01.png" width=600>
 
-- Cosmos DBはMicrosoft Azureで利用できる**NoSQLデータストア**
-    - NoSQLはいわゆる **データベース(RDBMS)** とは異なる概念と理解するのが良い
-    - NoSQLはファイルの簡便性とRDBMSの高速検索の良いところを両方持っている
-    - NoSQLはRDBMSを補完する概念であり、排他的ではない 
+- Cosmos DB is a **NoSQL datastore** available in Microsoft Azure
+    - NoSQL is a different concept from a so-called **RDBMS**.
+    - NoSQL has the best of both worlds: the simplicity of files and the speed of RDBMS searches.
+    - NoSQL is a complementary, not exclusive, concept to RDBMS 
 
-## CosmosDBの優位性
+## Speriority of CosmosDB (Good)
 
-### **ドキュメント(JSON)** を基準とする柔軟なデータ構造
-- JSONは以下のような形で**事前の項目定義が必要ない(スキーマレス)柔軟なデータ構造**を扱える。
+### Flexible data structure based on **Document (JSON)**.
+- JSON can handle **a flexible data structure** that does not require prior item definition (schema-less) in the following way.
 ```JSON
 {
   "name"   : "John Smith",
@@ -33,93 +33,93 @@
 }
 ```
 
-### データのクエリにSQL**ライク**なクエリ言語を利用できる。
-- SQL**ライク**な表現を利用できる。
+### SQL**-like** query language can be used to query data.
+- SQL**-like** expressions are available.
 ```SQL
 SELECT c.name, c.price FROM c
 WHERE c.price > 10
 ```
 
-※検索のみ。登録や更新はSQLではなくプログラムで対応する。
+*You can use SQL-like expressions in search query only. Creating item and updating are handled programmatically, not in SQL.
 
-### 分散アーキテクチャーによる高速処理 
-- 大量データの中から特定の少量データを**高速に検索**できる
-- パーティションによるデータ分散と、インデックスによる検索を組み合わせてデータを高速に検索・抽出できる。
-- 多数のアクセスが適切に分散されていればレイテンシーが増えることはない。
+### High-speed processing with distributed architecture 
+- Can **search** specific small amounts of data, from large amounts of data at **high speed (=low latency)**
+- Data can be searched and extracted at high speed by combining data distribution by partitioning and searching by index.
+- Latency will not increase if a large number of accesses, if they are properly distributed.
 
-### データ登録を起点とする**イベント起動**ができイベント駆動型データ処理を実現
-- Change Feedという更新キューを持つ。Azure Functionsとの組み合わせで、「1件受信したら何か処理をして他のサービスへ配信する」ようなイベント駆動型処理を簡単に実現することができる。
+### Event-driven data processing can be built with **event activation** triggered by data registration.
+- With an update queue called "Change Feed," in combination with Azure Functions, event-driven processing can be easily realized, such as "when one case is received, do something with it and send it to other services.
 
-### Microsoft Azureの優先データサービスとして全世界のデータセンターに展開
--  地理分散を利用して**アクセス元の地域に寄らない高速なアクセス速度**を保証
-- **マルチマスター**による高速な書き込み
+### Deployment in data centers worldwide as a preferred data service for Microsoft Azure
+- Geo-distributed to ensure **high access speed** independent of access origin
+- **Multi-master** for fast write speeds
 
-### 性能に関する高い柔軟性
-- **負荷に合わせて性能を自由に変更**できる。自動調整も可能。(注:制約はある)
+### High flexibility on performance.
+- **Flexibility to change** performance to match the workload changes. Automatic adjustment is also possible. (Note: some restrictions will be applied)
 
-### 保証された可用性・レイテンシー
-- SLAで**99.999%の可用性**を保証 [^1]
-- 1KB Read/Writeに関しては**99%の処理を10ms以内で応答**
+### Guaranteed Availability/Latency
+- SLA guarantees **99.999% availability** [^1].
+- For 1KB Read/Write, **99% response within 10ms**.
 
-[^1]: 複数リージョン読み込み・書き込み時のSLA。単一リージョンの場合は99.99%
+[^1]: SLA for multi-region read/write; 99.99% for single region
 
-## Cosmos DBがトレードオフしたこと
+## Trade-off of Cosmos DB (Not so Good)
 
-### Cosmos DBは結合処理が苦手
-- **異なる**コンテナーをまたいでデータを結合することはできない(物理パーティションをまたぐため)
-- スキーマレスの特長を生かして、異なる形のデータを同じコンテナーに入れて結合することはできるが **高コスト**  
+### Cosmos DB is not good at join processing.
+- **Cosmos DB cannot join data across **different** containers (because they cross physical partitions).
+- Schema-less feature can be used to merge different forms of data in the same container, but it is **highly expensive**.  
 
-### Cosmos DBは一貫性を維持するためのトランザクションが苦手
-- トランザクション処理はできるが、状況が限定的であり向いていない
+### Cosmos DB is not good at transactions to maintain consistency
+- Transaction processing is possible, but the situation is limited and not suitable.
 
-### Cosmos DBは1度の操作で扱うデータ量が多い処理が苦手
-- 結合、集計などの処理は大量のデータ読み込みが発生する。  
-  Cosmos DBは操作対象となるデータ量に応じて課金が発生するため、高コストになりがち
-- 集計・分析用途のためにはCosmos DB以外の別のサービスを組み合わせて利用することが推奨される
-  - Cosmos DBで受け取ったデータをSynapse Linkを経由してSpark/SQL/PowerBI等に連携する
-  - Change Feedによるデータの都度転送、都度集計
+### Cosmos DB is not good at processing large amounts of data handled in a single operation.
+- Processes such as merging and aggregation require a large amount of data to be read.  
+  Cosmos DB tends to be expensive because it charges according to the amount of data to be processed.
+- For aggregation and analysis, it is recommended to use another service other than Cosmos DB in combination.
+  - Link data received from Cosmos DB to Spark/SQL/PowerBI etc. via Synapse Link.
+  - Transfer and aggregate data each time by Change Feed
    
-## Cosmos DBはどんなシステムに向いているか？
+## What kind of system is Cosmos DB suitable for?
 
-   - 利用者や同時アクセス数は**多い**方が良い
-   - 利用される地域は**多い**ほど良い
-   - 蓄積されるデータは**多い**方が良い
-   - クエリは**シンプル**なほうが良い
-   - 処理1回にて抽出されるデータサイズは**少ない**方が良い
-   - データが **"HOT"な期間、蓄積して利用する** のが良い
-     - 長期的なデータ保存やデータ分析はBlob Storage、Spark、RDMBSなど別の仕組みに任せるほうがよい
-     - 別の仕組みにデータを移すための便利な仕組み(ChangeFeed/Synapse Link)が組み込まれている
+   - The **many** users and concurrent accesses are better
+   - The **more** regions used, the better.
+   - The **more** data that is stored, the better.
+   - The **simpler** the query, the better
+   - The size of data extracted per transaction should be **LESS**
+   - Storing and using data for a **"HOT" period of time** is better
+     - Long-term data storage and data analysis should be left to other mechanisms such as Blob Storage, Spark, RDMBS, etc.
+     - A convenient mechanism (ChangeFeed/Synapse Link) is built in to transfer data to another mechanism.
 
-## 上記を考慮した典型的なユースケース
-   - Webアプリ・モバイルアプリのデータ管理
-     - 個人のデータ閲覧範囲は狭く、1度の処理で扱うデータは小さいが、ユーザーが多くなれば接続数・総データ量も多くなる
-   - IoTデバイスデータ処理
-     - デバイス個々のデータ量は少ないが、デバイス数や拠点が多くなるケースが多い
-   - プロダクトカタログ
-     - 製品種別ごとに管理する情報項目が異なる。そのためスキーマレスと相性がいい
-   - ログデータ管理
-     - 同時に多くのサービスから異なる形のデータを受け取ることがある 
-   - エンタープライズデータ中継
-     - 多接続で書き込み負荷の高い処理を引き受ける = **RDMBSへのETL処理の手前に置く**使い方があり
-     - 受け取ったデータを複数のサービスに分配したり、時間差で抽出したりする場合に向いている
+## Typical use cases considering the above
+   - Data management for web and mobile applications
+     - Individual data viewing range is small and data handled in one process is small, but the more users, the more connections and total data volume
+   - IoT device data processing
+     - Individual device data volume is small, but the number of devices and locations is large in many cases
+   - Product catalog
+     - Information items to be managed differ by product type. Therefore, schema-less is a good match.
+   - Log data management
+     - Log data management Sometimes different forms of data are received from many services at the same time. 
+   - Enterprise data relay
+     - Takes on high write-load processing with multiple connections = **Place in front of ETL processing to RDMBS** There is a way to use it
+     - Suitable for distributing received data to multiple services or extracting data with time lag
 
-## 以下のサービスでもCosmos DBが利用されている
+## The following services also use Cosmos DB
   - [Microsoft Teams](https://www.microsoft.com/ja-jp/microsoft-teams/group-chat-software)
   - [Open AI - ChatGPT](https://chat.openai.com/)
-  - [弁護士ドットコム - AI法律相談](https://chat.bengo4.com/)
+  - [Bengo4.com(Bengoshi=Lawyers) - AI Legal Counseling](https://chat.bengo4.com/)
 
-## 開発者向けのメリット
-   - アプリケーションの応答速度がアクセス数やデータ量に寄らず一定になる
-     - 分散処理に適したアプリ・データモデル設計を行えば、データが増大しても正しく並列処理ができる
-     - ビジネスの拡大に伴うアクセス数・データ数の増加を気にせず運用できる
-   - アジャイル方式のシステム開発・変更の効率化に寄与
-      - スキーマレスの恩恵
-          - データベース項目の変更があっても過去データを直さなくてよい
-          - アジャイル開発の中でデータモデルが変化することを許容できる
+## Benefits for Developers
+   - Application response time is constant regardless of the number of accesses or the amount of data
+     - If you design an application and data model suitable for distributed processing, parallel processing can be performed correctly even when data increases.
+     - No need to worry about the number of accesses and the number of data as your business grows.
+   - Contributes to efficiency of agile system development and modification
+      - Benefits of Schema-less
+          - No need to modify past data even if database items are changed
+          - Allows for changes in the data model during agile development
 
-# Cosmos DBの仕組み
+# How Cosmos DB works
 
-## スループット(Request Unit:RU) とは
+## What is Throughput (Request Unit: RU)?
 
 スループットは**コンテナーに対するアイテムの読み書き性能**を規定する。
 
