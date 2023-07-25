@@ -229,26 +229,26 @@ Example) If you have a hierarchical partition key with three levels of [Tenant I
 |[Session Id]|Index search disabled|
 
 
-### コンテナー
+### Container
 
-アイテムが格納される場所。  
-スキーマを持たないため、異なる項目を持つアイテムを同時に格納できる。
+An object where items are stored.  
+Since it has no schema, items with different properties can be stored at the same time.
 
-コンテナーごとにスループットを設定する。  
+Can set throughput for each container.  
 
-コンテナーの作成時に、パーティションキーを設定する。アイテムはこのパーティションキーに基づいて、論理パーティションに分散格納される。  
+A partition key is set when the container is created. Items are distributed and stored in logical partitions based on this partition key.  
 
-コンテナに対してTime to Live(TTL)を設定すると、アイテムは指定した秒数後に自動的に削除される。  
-※コンテナにTTLを設定した後、アイテム項目の"ttl"で個別のアイテムのTTLをオーバーライドすることができる。
+If Time to Live (TTL) is set for a container, items are automatically deleted after a specified number of seconds.  
+After setting the TTL for a container, you can override the TTL for individual items with the item item item "ttl".
 
-コンテナーにはストアドプロシージャ、トリガー、ユーザー定義関数を定義することができる。
+Containers can contain stored procedures, triggers, and user-defined functions.
 
-### データベース
+### Database.
 
-コンテナーのグループ。  
-共有スループットの利用時にはデータベースごとに25コンテナーまでスループットの共有が可能。
+A group of containers.  
+Up to 25 containers per database can share throughput when using shared throughput.
 
-## パーティション
+## Partitions
 
 <!--
 <img src="./assets/00_02.png" width=600>
@@ -256,8 +256,8 @@ Example) If you have a hierarchical partition key with three levels of [Tenant I
 
 ```mermaid
 graph TD
-  cap["論理パーティション<BR>(MAX 20GB)"]
-  subgraph Con["コンテナー"]
+  cap["Logical Partition<BR>(MAX 20GB)"]
+  subgraph Con["Container"]
     A["PK=A"]
     B["PK=B"]
     C["PK=C"]
@@ -268,23 +268,23 @@ graph TD
   cap -.- C
   cap -.- D
   style cap stroke-width:0, fill-opacity:0%
-  subgraph p1["パーティション1"]
+  subgraph p1["Partition 1"]
     A2[A]
   end
-  subgraph p2["パーティション2"]
+  subgraph p2["Partition 2"]
     B2[B]
     C2[C]
   end
-  subgraph p3["パーティション3"]
+  subgraph p3["Partition 3"]
     D2[D]
   end
   A --> p1
   B --> p2
   C --> p2
   D --> p3
-  p1 -.RU分配.- cap2["物理パーティション<BR>(MAX 10,000RU/s & 50GB)"] 
-  p2 -.RU分配.- cap2
-  p3 -.RU分配.- cap2
+  p1 -."Shared RU".- cap2["Physical Partition<BR>(MAX 10,000RU/s & 50GB)"] 
+  p2 -."Shared RU".- cap2
+  p3 -."Shared RU".- cap2
   style p1 font-size:8px,fill:#7BCCAC,stroke:#8C8
   style p2 font-size:8px,fill:#7BCCAC,stroke:#8C8
   style p3 font-size:8px,fill:#7BCCAC,stroke:#8C8
@@ -294,24 +294,24 @@ graph TD
 <!---
 ```mermaid
 graph LR
-  subgraph "物理パーティション2: MAX10,000RU/s, 50GB"
-    subgraph 論理パーティションC : MAX 20GB
-      アイテムC1
+  subgraph "Physical Partition 2: MAX10,000RU/s, 50GB"
+    subgraph "Logical Partition C : MAX 20GB"
+      "Item C1"
     end
-    subgraph 論理パーティションD : MAX 20GB
-      アイテムD1
-      アイテムD2
+    subgraph "Logical Partition D : MAX 20GB"
+      "Item D1"
+      "Item D2"
     end
   end
-  subgraph "物理パーティション1: MAX10,000RU/s, 50GB"
-    subgraph 論理パーティションA : MAX 20GB
-      アイテムA1
-      アイテムA2
+  subgraph "Physical Partition1: MAX10,000RU/s, 50GB"
+    subgraph "Logical Partition A : MAX 20GB"
+      "Item A1"
+      "Item A2"
     end
-    subgraph 論理パーティションB : MAX 20GB
-      アイテムB1
-      アイテムB2
-      アイテムB3
+    subgraph "Logical Partition B : MAX 20GB"
+      "Item B1"
+      "Item B2"
+      "Item B3"
     end
   end
 ```
