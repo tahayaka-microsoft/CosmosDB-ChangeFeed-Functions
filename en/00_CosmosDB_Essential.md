@@ -482,32 +482,25 @@ graph LR
         end
     end
     A<--Parameter-->B
-    D["クエリ"]--Parameter-->B
-    B--"戻り値(オブジェクト)として"-->C["結果オブジェクト
-(RU消費量などのメトリック)"]
+    D["Query"]--Parameter-->B
+    B--"Response(Object)"-->C["Result Object
+(with RU Consumed, other metrics)"]
 style s2 stroke-dasharray: 5 5
 style 1 fill:#CCC,stroke:#888
 style 2 fill:#CCC,stroke:#888
 ```
 
-1. Client(CosmosClient)の生成
-1. Databaseオブジェクトの生成
-1. Containerオブジェクトの生成
-1. アイテム受信用のクラスの作成(C#)
-1. アイテム操作
-    1. アイテム作成・更新・削除
-        1. idやパーティションキーを指定して該当メソッドを呼び出す
-    2. アイテムの取得
-        1. idやパーティションキーを指定して該当メソッドを呼び出す
-        1. SQL(ライク)なクエリを指定して該当メソッドを呼び出す
-2. メトリックなどの取得
-    1. 操作メソッドの結果オブジェクトに含まれるエラーコードやRU消費量などを取得する
+1. Create Client(CosmosClient)
+1. Create Database Object
+1. Create Container Object
+1. Create Item Class(C#)
+1. Item Operations
+    1. Create, Update Delete Items
+        1. Call Access Method for each operation with id and Partition Key.
+    2. Get Items
+        1. Call Access Method for each operation with id and Partition Key.
+        1. Call Access Method for each operation with Query.
+2. Get Metricies
+    1. Get the Error Codes, RU Consumption included in Result Object, that is responded from the Access method.
 
-<!--
-## その他 
-
-### 整合性レベル
-
-### バックアップ
--->
 
