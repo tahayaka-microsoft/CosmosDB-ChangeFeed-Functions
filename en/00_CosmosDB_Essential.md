@@ -317,74 +317,74 @@ graph LR
 ```
 -->
 
-コンテナーごとにアイテムを格納する単位。
-**分散アクセスの方法を決定する**キーとなる概念のため、設計上注意が必要。
+The unit of measure for storing items per container.
+**Needs attention in design because it is a key concept** that determines the method of distributed access.
 
-### 論理パーティション
+### logical partition
 
-コンテナーに格納されるアイテムは、パーティションキーのハッシュ値範囲をもとに**論理パーティション**という区画に配置される。  
-論理パーティションは同一のパーティションキーを持つアイテムとインデックスを20GBまで格納できる。  
-**一つの論理パーティションのサイズが20GB以上になることはできない。** [^2]
+Items stored in containers are placed in compartments called **logical partitions** based on the hash value range of the partition key.  
+A logical partition can contain up to 20GB of items and indexes with the same partition key.  
+**The size of a single logical partition cannot be larger than 20GB. ** [^2].
 
-[^2]: サービスリクエスト(SR)で一時的に増加を許容することができるが、SLA対象ではなくなる。
+[^2]: Temporary increase can be allowed with Service Request (SR), but it will not be subject to SLA.
 
-### 物理パーティション
+### physical partition
 
-論理パーティションは単一の**物理パーティション**に配置される。
-物理パーティションは、**最大10,000RU/sの処理能力と最大50GBのストレージをもつ分散処理の単位**である。
-この**物理パーティションの処理能力(付与されたRU/s)を基準として**データ操作が行われる。
+Logical partitions are placed on a single **physical partition**.
+A physical partition is a unit of **distributed processing** with a maximum processing capacity of 10,000 RU/s and a maximum storage of 50GB.
+Data operations are performed based on the processing capacity of this **physical partition** (assigned RU/s).
 
-設定されたスループットや格納されたデータサイズが物理パーティションの上限を超えることにより  
-物理パーティションの数は**自動的に増加するが、自動的に減少することはない** [^3]。
+As the configured throughput or stored data size exceeds the upper limit of the physical partition  
+The number of physical partitions **automatically increases, but does not automatically decrease** [^3].
 
-> 既存のコンテナーのスループットを増加させる場合、10,000RU/sごとに物理パーティション数が増える。
-> 新規のコンテナーに6,000RU/s以上のスループットを設定すると、`設定したRU/s ÷ 6,000`個の物理パーティションが作成される。
+> When increasing the throughput of an existing container, the number of physical partitions will increase for every 10,000 RU/s.
+> If you set a throughput of more than 6,000 RU/s for a new container, `set RU/s ÷ 6,000` physical partitions will be created.
 
-設定されたスループットは存在する物理パーティション間で**均等に分配**される [^4]。
+The set throughput will be **equally distributed** among the existing physical partitions [^4].
 
-例 : 5,000RU/sで利用しているコンテナーを、12,000RU/sに変更した場合、2つの物理パーティションに分散される。各物理パーティションは均等に6,000RU/sのスループットが割り当てられる。  
-その後コンテナーのスループットを5,000RU/sに戻した場合でも、2つの物理パーティションに分散されたままとなる。その場合、物理パーティションごとに均等、つまり2,500RU/sのスループットが割り当てられる。
+Example : If a container used at 5,000RU/s is changed to 12,000RU/s, it will be distributed to two physical partitions. Each physical partition is equally allocated 6,000 RU/s of throughput.  
+If the container throughput is subsequently changed back to 5,000 RU/s, it will still be distributed across the two physical partitions. In that case, each physical partition will be allocated equally, i.e., 2,500 RU/s of throughput.
 
-物理パーティションを利用者が制御することは基本的にできない[^3]ため、アプリ/データモデル設計においては**論理パーティション(=パーティションキー設定)とアクセス方式(=クエリのWHERE句)に重点を置くべき**である。
+Since the user basically has no control over the physical partitions [^3], the application/data model design should focus on **logical partitions (= partition key settings) and access methods (= WHERE clause in queries)**.
   
-具体的には **「同時に多数発生するクエリのWHERE句に相当する項目をパーティションキーの優先的な候補とする」** ことが望ましい。  
-これは、WHERE句に指定された項目とパーティションキーが同一であれば、**単一の物理パーティションのみの検索で低コストに結果を返す**ことができるからである。  
-逆に、**パーティションキー以外の項目で検索がされた場合**は、少なくとも **すべての物理パーティションを確認**しないと結果が返せないため、必然的にコストは高くなる。
+Specifically, it is desirable to **"make the item corresponding to the WHERE clause of a query that occurs many times at the same time a preferred candidate for a partition key.  
+This is because **if the item specified in the WHERE clause and the partition key are identical, **a search of only a single physical partition can return results at low cost**.  
+Conversely, if a search is performed on an item other than **the partition key**, the cost is necessarily higher because the result cannot be returned without at least **checking all physical partitions**.
 
-[^3]: 物理パーティションをマージする機能がプレビュー中。  
-[^4]: 特定の物理パーティションへのRU割り当てを増加させることができる機能が現在プレビュー中。
+[^3]: The ability to merge physical partitions is in preview.  
+[^4]: The ability to increase the RU allocation to a specific physical partition is currently in preview.
 
-## インデックス、インデックスポリシー
+## Index, index policy
 
-インデックスは**アイテムの位置を示す索引**である。  
+An index is an **index** that indicates the location of an item.  
 
-**インデックスがある項目に対する検索は高速に行うことができる。**  
-逆にいえばインデックスがない項目に対する検索はデータを全件スキャンする必要があり、Cosmos DBの仕様からすると非常に非効率な動作となる。
+**Searching for indexed items can be fast. **  
+Conversely, searches on non-indexed items require a full scan of the data, which is very inefficient according to the Cosmos DB specification.
 
-コンテナーに登録されるアイテムには**既定ですべての項目に対してインデックスが生成**される。  
-インデックスはCosmos DBのストレージを使用する。また、書き込み・読み出しについてはRUを消費する。   
+All items registered in a container are indexed by **default**.  
+Indexes use Cosmos DB storage. It also consumes RUs for write and read operations.   
 
-インデックスは、コンテナーにJSON書式で規定された **インデックス作成ポリシー** にしたがって生成される。  
-よって、必要に応じてインデックス作成ポリシーを上書きして、Cosmos DBにおけるインデックス生成を制御することができる。
+Indexes are generated according to the **indexing policy** specified in the container in JSON format.  
+Therefore, index creation in Cosmos DB can be controlled by overriding the index creation policy as necessary.
 
-インデックス作成ポリシーによる代表的な制御を以下に示す。
+Typical controls by the index creation policy are shown below.
 
-- インデックス作成モードを制御する
-- インデックスを生成する・しない項目を特定する
-- 空間インデックス・複合インデックスを作成する
+- Control the index creation mode
+- Specify items to generate or not to generate indexes
+- Create spatial and composite indexes
 
-インデックス作成ポリシーはポータルやSDKを用いていつでも変更可能であるが、実際のインデックスの変更はバックエンドでRUを消費しながら実行される。  
-進行状況についてはポータル、もしくはSDKで追跡ができる。
+Indexing policies can be changed at any time using the Portal or SDK, but the actual indexing changes are performed on the back end, consuming RU.  
+Progress can be tracked in the Portal or SDK.
 
 ## Change Feed
 ```mermaid
 graph LR
-    1[/"アイテム"/]
+    1[/"item"/]
     1-->A
     subgraph Cosmos DB
-        A[(コンテナー)]
+        A[("Container")]
         D[/Change Feed/]
-        A--自動連携-->D 
+        A--"Automatic Sync."-->D 
     end
     subgraph af1[Azure Functions]
         B[["Cosmos DB Trigger"]] 
@@ -392,73 +392,72 @@ graph LR
     subgraph af2[Azure Functions]
         F[["Cosmos DB Trigger"]] 
     end
-    subgraph ss2["その他 Azure Data Services"]
+    subgraph ss2["Other Azure Data Services"]
         E["Azure Storage
         Azure Search
         Azure Synapse Analytics
         Cosmos DB for NoSQL
-        (別コンテナー)"] 
+        (Another Container)"] 
     end
-    subgraph ss1["RDBMS連携・負荷分散"]
+    subgraph ss1["RDBMS Load Balancing"]
         C["Cosmos DB for PostgreSQL"] 
     end
-    D --"(自動取得)"--> B
-    D -."(自動取得)".-> F
-    B --"Functionsで
-    プログラム"--> C
-    F -."Functionsで
-    プログラム".-> E
+    D --"(Auto Sync.)"--> B
+    D -."(Auto Sync.)".-> F
+    B --"Programmed 
+    with Functions"--> C
+    F -."Programmed 
+    with Functions".-> E
     style af2 stroke-dasharray: 5 5
     style ss2 stroke-dasharray: 5 5
 ```
 
-Cosmos DBのコンテナーに登録・変更されたアイテムの情報の順序だてた記録をChange Feedと呼ぶ。
+An ordered record of information on items that have been registered or changed in a Cosmos DB container is called a Change Feed.
 
-Change Feedにアクセスする方法として以下2つがある。
+There are two ways to access Change Feed.
 
-|アクセス方式|説明|
+|Access Method|Description|
 |----|----|
-|プッシュモデル|Azure FunctionsのCosmos DB Triggerを使用してプログラムを起動する|
-|プルモデル|プログラムから定期的にChange Feedにアクセスしてデータを取得する|
+|Push Model|Azure Functions' Cosmos DB Trigger is used to launch the program.|
+|Pull Model|Programs periodically access Change Feed to retrieve data|
 
-主として、Azure FunctionsのCosmos DB Triggerを使用してプログラムを起動するプッシュモデルの利便性が高い。  
-本ハンズオンではこの方法を使用する。
+Push model of launching programs using the Cosmos DB Trigger in Azure Functions is more convenient.  
+This method will be used in this hands-on.
 
-Change Feed(LatestVersionモード)では削除の情報を取ることができない。  
-また、変更に関しても途中の経過を取ることができない。[^5]  
+Change Feed (LatestVersion mode) cannot take information on deletion.  
+Also, it is not possible to take the progress in the middle of a change. [^5]  
 
-[^5]: 現在、削除の情報を取ることができる、"すべてのバージョンと削除 モード"がプレビュー中である。
+[^5]: Currently there is a "delete mode with all versions" in preview, which can take information on deletions.
 
 ## Synapse Link
 ```mermaid
 graph LR
 subgraph "Cosmos DB(Analytical Store Enabled)"
-  A[("コンテナー
-  (Analytical Store On)")] --"自動でコピー"--> B[("Synapse Link
+  A[("Container
+  (Analytical Store On)")] --"Auto Copy"--> B[("Synapse Link
   (parquet)")]
 end
 subgraph Synapse Analytics
   C[["Serverless SQL Pool
   (or Spark Pool)"]]
 end
-B --"SQL or プログラムを
-実行して読み出し"--> C
+B --"Read by SQL or programs"--> C
 ```
 
-Cosmos DBのコンテナーに登録されている情報を直接集計や分析にかけるのはCosmos DBの仕様上、好ましくない。  
-そのため、集計や分析に掛けるためにデータを集計・分析に適した形で別に保管し、分析・集計に強いSynapse Analyticsからアクセスできるようにする機能がSynapse Linkである。
+Due to the specifications of Cosmos DB, it is not good to aggregate or analyze items registered in Cosmos DB containers directly.  
+Therefore, Synapse Link is a function that allows data to be stored separately in a form suitable for aggregation and analysis, and to be accessed by Synapse Analytics. This is strong in analysis and aggregation.
 
-Cosmos DBのアカウントでAnalytical Storeを有効にすると、コンテナーに登録された情報を自動的にSynapse Linkにコピーする。  
-Synapse Linkにコピーされたデータはparquet形式で保管される。parquet形式は列ストア型のデータであり、集計や分析に適した形式である。
+When the Analytical Store is enabled in your Cosmos DB account, the items registered in the container is automatically copied to Synapse Link.  
+The items copied to Synapse Link is stored in parquet format, which is a column store type of data, and it is suitable for aggregation and analysis.
 
-Synapse Linkのparquet形式のデータは、Synapse AnalyticsのServerless SQL PoolやSpark Poolから直接参照することができる。  
-このアクセスの際、Cosmos DBのRUを消費しない。(Synapse Analyticsの利用料金はかかる)
+The parquet data in Synapse Link can be directly accessed from the Serverless SQL Pool and Spark Pool in Synapse Analytics.  
+This access does not consume Cosmos DB RUs. (Synapse Analytics usage fees apply).
 
 ## SDK
 
-### 各言語での対応
+### Available in various languages
 
-Cosmos DBは以下の言語のSDKを提供している。
+Cosmos DB provides SDKs for the following languages
 
 - .NET(C#)
 - Java
@@ -466,24 +465,24 @@ Cosmos DBは以下の言語のSDKを提供している。
 - Python
 - Go
 
-> C#,JavaのSDKは最新の機能が反映されやすい。
+> SDKs for C# and Java are more likely to reflect the latest functionality.
 
-### Cosmos DB SDKでの開発
+### Development with Cosmos DB SDK
 
 ```mermaid
 graph LR
-    A([アイテム受渡用クラス])
+    A([Class for items])
     subgraph s1["CosmosClient"]
-        1["設定(アクセスキー,URI)"]
-        subgraph s2["Database(なくても良い)"]
+        1["Configrations(URI etc.)"]
+        subgraph s2["Database(optional)"]
             subgraph s3["Container"]
-                2["設定(RU/s,インデックスポリシー)"]
-                B[[各種メソッド]]
+                2["Configurations(RU/s,Indexing Policy)"]
+                B[[Access Methods]]
             end
         end
     end
-    A<--引数として-->B
-    D["クエリ"]--引数として-->B
+    A<--Parameter-->B
+    D["クエリ"]--Parameter-->B
     B--"戻り値(オブジェクト)として"-->C["結果オブジェクト
 (RU消費量などのメトリック)"]
 style s2 stroke-dasharray: 5 5
