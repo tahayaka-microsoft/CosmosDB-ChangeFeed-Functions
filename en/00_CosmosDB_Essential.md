@@ -33,8 +33,8 @@
 }
 ```
 
-### SQL**-like** query language can be used to query data.
-- SQL**-like** expressions are available.
+### SQL **-like** query language can be used to query data.
+- SQL **-like** expressions are available.
 ```SQL
 SELECT c.name, c.price FROM c
 WHERE c.price > 10
