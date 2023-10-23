@@ -32,6 +32,17 @@
 <br>
 <img src="./assets/03_03.png" width="400">
 
+### (暫定対応) ExtensionBandleのバージョンを変更
+
+2023/11時点では、.NET6のCosmosDBTriggerの関数実行時に
+```
+```
+というエラーが発生して動作しないという不具合がある。  
+これを回避するために、Azure Functionsのモジュールのバージョンを変更する。
+
+① Azure Functionsのメニューから「アプリファイル」を選択する
+② 右側に表示されたファイルの内容のうち、"version"を`[3.*,4.*.*)`に変更する。
+<img src="./assets/03_16.png" width="400">
 
 ## 関数の作成
 
