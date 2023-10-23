@@ -36,12 +36,14 @@
 
 2023/11時点では、.NET6のCosmosDBTriggerの関数実行時に
 ```
+[Error]   run.csx(1,2): error CS0006: Metadata file 'Microsoft.Azure.DocumentDB.Core' could not be found
 ```
-というエラーが発生して動作しないという不具合がある。  
+というエラーが発生してトリガー動作しないという不具合がある。  
 これを回避するために、Azure Functionsのモジュールのバージョンを変更する。
 
-① Azure Functionsのメニューから「アプリファイル」を選択する
-② 右側に表示されたファイルの内容のうち、"version"を`[3.*,4.*.*)`に変更する。
+① Azure Functionsのメニューから「アプリファイル」を選択する  
+② 右側に表示されたファイルの内容のうち、"version"を`[3.*,4.*.*)`に変更する。  
+
 <img src="./assets/03_16.png" width="400">
 
 ## 関数の作成
