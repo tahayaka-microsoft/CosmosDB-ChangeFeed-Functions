@@ -192,7 +192,7 @@ select create_distributed_table('holfnctest','id');
     - ComsomsDBTriggerフォルダで右クリックし、"NewFile"  
       <img src="./assets/03_13.png" widht="400">
       
-    - "functions.proj"というファイルを作成し、Npgsqlに関する下記エントリを記述する(自動で保存される)
+    - **"function.proj"**というファイルを作成し、Npgsqlに関する下記エントリを記述する(自動で保存される)
 
 ```XML
 <Project Sdk="Microsoft.NET.Sdk">
