@@ -195,7 +195,7 @@ select create_distributed_table('holfnctest','id');
     - ComsomsDBTriggerフォルダで右クリックし、"NewFile"  
       <img src="./assets/03_13.png" widht="400">
       
-    - "function.proj"というファイルを作成し、Npgsqlに関する下記エントリを記述する(自動で保存される)
+    - `function.proj`というファイルを作成し、Npgsqlに関する下記エントリを記述する(自動で保存される)
 
 ```XML
 <Project Sdk="Microsoft.NET.Sdk">
@@ -208,8 +208,8 @@ select create_distributed_table('holfnctest','id');
 </Project>
 ```
 
-> 関数アプリのコードを保存するとコンパイルが走り、その際に必要なライブラリのインポートが実行され、
-> "NuGet"というフォルダがCosmosDBTriggerフォルダ以下に作成される。
+> 関数アプリのコードが保存されると(Functionsサービスが`functions.proj`を監視しているため)コンパイルが走り、その際に必要なライブラリのインポートが実行され、
+> `NuGet`というフォルダと`project.assets.json`がCosmosDBTriggerフォルダ以下に自動的に作成される。
 
 #### 関数の作成
 
