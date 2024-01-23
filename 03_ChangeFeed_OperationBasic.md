@@ -67,6 +67,9 @@ graph LR
 
 <img src="./assets/03_04.png" width="400">
 
+- まだ関数アプリに関数が登録されていない場合は、「概要」から「関数の作成」を押下する
+<img src="./assets/FunctionsFirst.png" width="400">
+
 - "ポータルでの開発" , "Azure Cosmos DB Trigger"を選択
 
 <img src="./assets/03_05.png" width="400">
