@@ -107,14 +107,11 @@ public static void Run(IReadOnlyList<Document> input, ILogger log)
     if (input != null && input.Count > 0)
     {
         log.LogInformation("Documents modified " + input.Count);
-        log.LogInformation("First document Id " + input[0].Id);
+        log.LogInformation("First document Id " + input[0].id);
     }
 
     foreach ( var doc in input ) {
-        var jsonString = doc.ToString();
-
-        log.LogInformation("jsonString : " + jsonString);
-
+        log.LogInformation("document = " + doc.id + " - " + doc.Description);
     }
 }
 ```
@@ -203,6 +200,7 @@ select create_distributed_table('holfnctest','id');
     </PropertyGroup>
     <ItemGroup>
         <PackageReference Include="Npgsql" Version="4.0.3" />
+        <PackageReference Include="System.Text.Json" Version="8.0.2" />
     </ItemGroup>
 </Project>
 ```
@@ -216,33 +214,38 @@ select create_distributed_table('holfnctest','id');
   connStringの`<サーバーURL>`,`<パスワード>`は自分の環境に合わせて適宜入れ替える
 
 ```CSharp
-#r "Microsoft.Azure.DocumentDB.Core"
-
 using System;
 using System.Collections.Generic;
-using Microsoft.Azure.Documents;
+using System.Text.Json;
+using System.Text.Json.Serialization;
+
 using Npgsql;
 
-public static void Run(IReadOnlyList<Document> input, ILogger log)
-{
+public class HRInfo {
+    public string id { set; get; }
+    public string name { set; get; }
+    public int age { set; get; }
+}
 
+public static void Run(IReadOnlyList<HRInfo> input, ILogger log)
+{
     var connString = "Server=<サーバーURL>;Port=5432;Database=citus;Username=citus;Password=<パスワード>;SSLMode=Prefer";
     var conn = new NpgsqlConnection(connString);
     conn.Open();
 
     foreach ( var doc in input ) {
 
-        log.LogInformation(input[0].ToString());
+        log.LogInformation(JsonSerializer.Serialize(input[0]));
 
         using var cmd = new NpgsqlCommand("INSERT INTO holfnctest (id,name,age,create_at) VALUES (@p1,@p2,@p3,@p4)", conn);
 
         var create_at = DateTime.Now;
-        cmd.Parameters.AddWithValue("p1", doc.GetPropertyValue<string>("id"));
-        cmd.Parameters.AddWithValue("p2", doc.GetPropertyValue<string>("name"));
-        cmd.Parameters.AddWithValue("p3", doc.GetPropertyValue<int>("age"));
+        cmd.Parameters.AddWithValue("p1", doc.id);
+        cmd.Parameters.AddWithValue("p2", doc.name);
+        cmd.Parameters.AddWithValue("p3", doc.age);
         cmd.Parameters.AddWithValue("p4", create_at);
         
-        log.LogInformation("Throwing Database Command : id='" + doc.GetPropertyValue<string>("id") + "' Start...");
+        log.LogInformation("Throwing Database Command : id='" + doc.id + "' Start...");
         log.LogInformation("create_at will be '" + create_at.ToString() + "'.");
 
         var ret = cmd.ExecuteNonQuery();
