@@ -23,7 +23,7 @@
 |リソースグループ|任意|
 |関数アプリ名|任意(全世界で一意)|
 |ランタイムスタック|.NET|
-|バージョン|6(LTS)|
+|バージョン|**6(LTS), in-process model**(重要)|
 |地域|任意(JapanEast推奨)|
 |オペレーティングシステム|Windows|
 |ホスティングオプションとプラン|消費量(サーバーレス)|
@@ -31,22 +31,6 @@
 <img src="./assets/03_02.png" width="400">
 <br>
 <img src="./assets/03_03.png" width="400">
-
-### (暫定対応) ExtensionBandleのバージョンを変更
-
-2023/11時点では、.NET6のCosmosDBTriggerの関数実行時に
-```
-[Error]   run.csx(1,2): error CS0006: Metadata file 'Microsoft.Azure.DocumentDB.Core' could not be found
-```
-というエラーが発生してトリガー動作しないという不具合がある。  
-これを回避するために、Azure Functionsのモジュールのバージョンを変更する。
-
-① Azure Functionsのメニューから「アプリファイル」を選択する  
-② 右側に表示されたファイルの内容のうち、"version"を`[3.*,4.0.0)`に変更する。  
-> バージョン4からバージョン3の利用にダウングレードする意
-③ [保存]を押下して変更を保存する  
-
-<img src="./assets/03_16.png" width="400">
 
 ## 関数の作成
 
@@ -67,7 +51,7 @@ graph LR
 
 <img src="./assets/03_04.png" width="400">
 
-- まだ関数アプリに関数が登録されていない場合は、「概要」から「関数の作成」を押下する
+- まだ関数アプリに関数が登録されていない場合は、「概要」ページの下段から「関数の作成」を押下する
 <img src="./assets/FunctionsFirst.png" width="400">
 
 - "ポータルでの開発" , "Azure Cosmos DB Trigger"を選択
@@ -96,13 +80,13 @@ graph LR
 - 以下のコードをコピーし、貼り付けて、「保存」
   - 初期のコードからは`foreach ( var doc in input ) {`以降のブロックを追記すればよい
 
+(以下コードは2024/02/28時点で大きく変更になっているので注意)
+
 ```CSharp
-#r "Microsoft.Azure.DocumentDB.Core"
 using System;
 using System.Collections.Generic;
-using Microsoft.Azure.Documents;
 
-public static void Run(IReadOnlyList<Document> input, ILogger log)
+public static void Run(IReadOnlyList<ToDoItem> input, ILogger log)
 {
     if (input != null && input.Count > 0)
     {
@@ -111,9 +95,17 @@ public static void Run(IReadOnlyList<Document> input, ILogger log)
     }
 
     foreach ( var doc in input ) {
-        log.LogInformation("document = " + doc.id + " - " + doc.Description);
+        log.LogInformation("Input Document = {'id':'" + doc.id + "','Descprition':'" + doc.Description + "'}");
     }
 }
+
+// Customize the model with your own desired properties
+public class ToDoItem
+{
+    public string id { get; set; }
+    public string Description { get; set; }
+}
+
 ```
 
 #### 関数のテスト
@@ -179,8 +171,6 @@ create table holfnctest (
 
 select create_distributed_table('holfnctest','id');
 ```
-
-- Cosmos DB for PostgreSQLのメニュー「接続文字列」より、"PostgreSQL Connection String"をコピーしておく
 
 <img src="./assets/03_10.png" width="400">
 
@@ -339,4 +329,21 @@ public static void Run(IReadOnlyList<HRInfo> input, ILogger log)
 - Cosmos DB for PostgreSQL
   - ある程度のデータ量を使った分析や集計ワークロードを担わせ、同時多発的なクエリを短時間で処理させる  
 
+<!----- 墓場
+### (暫定対応) ExtensionBandleのバージョンを変更
 
+2023/11時点では、.NET6のCosmosDBTriggerの関数実行時に
+```
+[Error]   run.csx(1,2): error CS0006: Metadata file 'Microsoft.Azure.DocumentDB.Core' could not be found
+```
+というエラーが発生してトリガー動作しないという不具合がある。  
+これを回避するために、Azure Functionsのモジュールのバージョンを変更する。
+
+① Azure Functionsのメニューから「アプリファイル」を選択する  
+② 右側に表示されたファイルの内容のうち、"version"を`[3.*,4.0.0)`に変更する。  
+> バージョン4からバージョン3の利用にダウングレードする意
+③ [保存]を押下して変更を保存する  
+
+<img src="./assets/03_16.png" width="400">****
+- Cosmos DB for PostgreSQLのメニュー「接続文字列」より、"PostgreSQL Connection String"をコピーしておく
+---->
