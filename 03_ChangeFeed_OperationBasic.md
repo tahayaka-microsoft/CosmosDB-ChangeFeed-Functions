@@ -129,8 +129,7 @@ public static void Run(IReadOnlyList<Document> input, ILogger log)
 ```JSON
 {
   "id":"01234",
-  "name":"John Smith",
-  "age": 23
+  "Description":"Sample Description"
 }
 ```
 
